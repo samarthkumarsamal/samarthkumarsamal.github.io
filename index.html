@@ -141,6 +141,9 @@
             --accent: #62d6c8;
             --accent-hover: #82e3d7;
             --accent-soft: rgba(98, 214, 200, 0.09);
+            --ambient-accent: rgba(98, 214, 200, 0.13);
+            --ambient-blue: rgba(123, 169, 255, 0.09);
+            --section-glass: rgba(14, 21, 30, 0.82);
 
             --blue: #7ba9ff;
             --green: #68d391;
@@ -168,6 +171,9 @@
             --accent: #087f75;
             --accent-hover: #056960;
             --accent-soft: rgba(8, 127, 117, 0.08);
+            --ambient-accent: rgba(8, 127, 117, 0.10);
+            --ambient-blue: rgba(51, 111, 197, 0.07);
+            --section-glass: rgba(255, 255, 255, 0.78);
 
             --blue: #336fc5;
             --green: #25855a;
@@ -195,8 +201,12 @@
         }
 
         body {
+            position: relative;
+
             margin: 0;
             min-width: 320px;
+
+            overflow-x: hidden;
 
             background: var(--background);
             color: var(--text);
@@ -205,23 +215,111 @@
             font-size: 16px;
             line-height: 1.7;
 
+            isolation: isolate;
+
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
         }
 
-        body::before {
+
+        /* =========================================================
+           2A. DYNAMIC INTERACTIVE BACKGROUND
+           ========================================================= */
+
+        body::before,
+        body::after {
             content: "";
+
             position: fixed;
-            inset: 0;
             pointer-events: none;
-            z-index: -1;
+
+            z-index: 0;
+        }
+
+        body::before {
+            inset: 0;
 
             background:
                 radial-gradient(
-                    circle at 10% 5%,
-                    var(--accent-soft),
-                    transparent 34rem
+                    circle 320px
+                    at var(--pointer-x, 50vw)
+                    var(--pointer-y, 28vh),
+                    var(--ambient-accent),
+                    transparent 72%
                 );
+
+            opacity: 0.9;
+        }
+
+        body::after {
+            inset: -18%;
+
+            background:
+                radial-gradient(
+                    circle at 18% 22%,
+                    var(--ambient-accent),
+                    transparent 27rem
+                ),
+                radial-gradient(
+                    circle at 82% 68%,
+                    var(--ambient-blue),
+                    transparent 31rem
+                );
+
+            filter: blur(18px);
+            opacity: 0.72;
+
+            transform: translate3d(0, 0, 0) scale(1.04);
+
+            animation:
+                ambient-background-shift
+                16s
+                ease-in-out
+                infinite
+                alternate;
+        }
+
+        @keyframes ambient-background-shift {
+
+            0% {
+                transform:
+                    translate3d(-1.5%, -1%, 0)
+                    scale(1.03);
+            }
+
+            50% {
+                transform:
+                    translate3d(1.5%, 1%, 0)
+                    scale(1.07);
+            }
+
+            100% {
+                transform:
+                    translate3d(-0.5%, 2%, 0)
+                    scale(1.04);
+            }
+        }
+
+        .interactive-background {
+            position: fixed;
+
+            inset: 0;
+            z-index: 0;
+
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            pointer-events: none;
+
+            opacity: 0.92;
+        }
+
+        main,
+        footer {
+            position: relative;
+            z-index: 1;
         }
 
         img {
@@ -287,9 +385,12 @@
         }
 
         .section-alt {
-            background: var(--background-secondary);
+            background: var(--section-glass);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
+
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
         }
 
         .section-header {
@@ -1732,6 +1833,14 @@
                 opacity: 1;
                 transform: none;
             }
+
+            body::after {
+                animation: none;
+            }
+
+            .interactive-background {
+                opacity: 0.55;
+            }
         }
 
     </style>
@@ -1739,6 +1848,18 @@
 
 
 <body>
+
+    <!-- =========================================================
+         DYNAMIC INTERACTIVE BACKGROUND
+         Everything is rendered locally inside this single HTML file.
+         ========================================================= -->
+
+    <canvas
+        class="interactive-background"
+        id="interactiveBackground"
+        aria-hidden="true"
+    ></canvas>
+
 
     <!-- =========================================================
          ACCESSIBILITY
@@ -3376,6 +3497,11 @@
         const html =
             document.documentElement;
 
+        const interactiveBackground =
+            document.getElementById(
+                "interactiveBackground"
+            );
+
         const siteHeader =
             document.getElementById("siteHeader");
 
@@ -3696,7 +3822,1193 @@
 
 
         /* =========================================================
-           8. CLOSE MOBILE MENU AFTER RESIZE
+           8. DYNAMIC INTERACTIVE BACKGROUND
+           ========================================================= */
+
+        const backgroundContext =
+            interactiveBackground.getContext(
+                "2d",
+                {
+                    alpha: true
+                }
+            );
+
+        const reducedMotionQuery =
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            );
+
+
+        const backgroundState = {
+
+            width: 0,
+            height: 0,
+            pixelRatio: 1,
+
+            particles: [],
+
+            animationFrame: null,
+            running: false,
+
+            pointer: {
+                x: window.innerWidth / 2,
+                y: window.innerHeight * 0.28,
+                active: false,
+                radius: 175
+            },
+
+            colors: {
+                accent: {
+                    r: 98,
+                    g: 214,
+                    b: 200
+                },
+                blue: {
+                    r: 123,
+                    g: 169,
+                    b: 255
+                }
+            }
+        };
+
+
+        function parseCssColor(
+            colorValue
+        ) {
+
+            const value =
+                colorValue.trim();
+
+            if (
+                value.startsWith("#")
+            ) {
+
+                const hex =
+                    value.slice(1);
+
+                if (
+                    hex.length === 3
+                ) {
+
+                    return {
+                        r:
+                            parseInt(
+                                hex[0] + hex[0],
+                                16
+                            ),
+                        g:
+                            parseInt(
+                                hex[1] + hex[1],
+                                16
+                            ),
+                        b:
+                            parseInt(
+                                hex[2] + hex[2],
+                                16
+                            )
+                    };
+                }
+
+                if (
+                    hex.length >= 6
+                ) {
+
+                    return {
+                        r:
+                            parseInt(
+                                hex.slice(0, 2),
+                                16
+                            ),
+                        g:
+                            parseInt(
+                                hex.slice(2, 4),
+                                16
+                            ),
+                        b:
+                            parseInt(
+                                hex.slice(4, 6),
+                                16
+                            )
+                    };
+                }
+            }
+
+
+            const rgbMatch =
+                value.match(
+                    /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/
+                );
+
+            if (
+                rgbMatch
+            ) {
+
+                return {
+                    r: Number(rgbMatch[1]),
+                    g: Number(rgbMatch[2]),
+                    b: Number(rgbMatch[3])
+                };
+            }
+
+
+            return {
+                r: 98,
+                g: 214,
+                b: 200
+            };
+        }
+
+
+        function rgba(
+            color,
+            alpha
+        ) {
+
+            return (
+                "rgba(" +
+                color.r + ", " +
+                color.g + ", " +
+                color.b + ", " +
+                alpha + ")"
+            );
+        }
+
+
+        function readBackgroundThemeColors() {
+
+            const styles =
+                getComputedStyle(html);
+
+            backgroundState.colors.accent =
+                parseCssColor(
+                    styles
+                        .getPropertyValue(
+                            "--accent"
+                        )
+                );
+
+            backgroundState.colors.blue =
+                parseCssColor(
+                    styles
+                        .getPropertyValue(
+                            "--blue"
+                        )
+                );
+        }
+
+
+        function createBackgroundParticle() {
+
+            const speed =
+                0.12 +
+                Math.random() * 0.22;
+
+            const angle =
+                Math.random() *
+                Math.PI *
+                2;
+
+            return {
+
+                x:
+                    Math.random() *
+                    backgroundState.width,
+
+                y:
+                    Math.random() *
+                    backgroundState.height,
+
+                vx:
+                    Math.cos(angle) *
+                    speed,
+
+                vy:
+                    Math.sin(angle) *
+                    speed,
+
+                size:
+                    0.8 +
+                    Math.random() * 1.45,
+
+                phase:
+                    Math.random() *
+                    Math.PI *
+                    2
+            };
+        }
+
+
+        function getTargetParticleCount() {
+
+            const area =
+                backgroundState.width *
+                backgroundState.height;
+
+            const areaBasedCount =
+                Math.floor(
+                    area / 24500
+                );
+
+            if (
+                backgroundState.width < 700
+            ) {
+
+                return Math.max(
+                    20,
+                    Math.min(
+                        38,
+                        areaBasedCount
+                    )
+                );
+            }
+
+
+            return Math.max(
+                34,
+                Math.min(
+                    78,
+                    areaBasedCount
+                )
+            );
+        }
+
+
+        function rebuildBackgroundParticles() {
+
+            const particleCount =
+                getTargetParticleCount();
+
+            backgroundState.particles =
+                Array.from(
+                    {
+                        length: particleCount
+                    },
+                    createBackgroundParticle
+                );
+        }
+
+
+        function resizeInteractiveBackground() {
+
+            backgroundState.width =
+                window.innerWidth;
+
+            backgroundState.height =
+                window.innerHeight;
+
+            backgroundState.pixelRatio =
+                Math.min(
+                    window.devicePixelRatio || 1,
+                    2
+                );
+
+            interactiveBackground.width =
+                Math.round(
+                    backgroundState.width *
+                    backgroundState.pixelRatio
+                );
+
+            interactiveBackground.height =
+                Math.round(
+                    backgroundState.height *
+                    backgroundState.pixelRatio
+                );
+
+            interactiveBackground.style.width =
+                backgroundState.width +
+                "px";
+
+            interactiveBackground.style.height =
+                backgroundState.height +
+                "px";
+
+
+            backgroundContext.setTransform(
+                backgroundState.pixelRatio,
+                0,
+                0,
+                backgroundState.pixelRatio,
+                0,
+                0
+            );
+
+
+            rebuildBackgroundParticles();
+        }
+
+
+        function drawAmbientCanvasGlow(
+            time
+        ) {
+
+            const t =
+                time * 0.00012;
+
+            const accent =
+                backgroundState.colors.accent;
+
+            const blue =
+                backgroundState.colors.blue;
+
+
+            const accentX =
+                backgroundState.width *
+                (
+                    0.2 +
+                    Math.sin(t) *
+                    0.06
+                );
+
+            const accentY =
+                backgroundState.height *
+                (
+                    0.22 +
+                    Math.cos(t * 0.83) *
+                    0.08
+                );
+
+            const accentRadius =
+                Math.max(
+                    300,
+                    backgroundState.width *
+                    0.42
+                );
+
+
+            const accentGradient =
+                backgroundContext
+                    .createRadialGradient(
+                        accentX,
+                        accentY,
+                        0,
+                        accentX,
+                        accentY,
+                        accentRadius
+                    );
+
+            accentGradient.addColorStop(
+                0,
+                rgba(
+                    accent,
+                    0.055
+                )
+            );
+
+            accentGradient.addColorStop(
+                1,
+                rgba(
+                    accent,
+                    0
+                )
+            );
+
+            backgroundContext.fillStyle =
+                accentGradient;
+
+            backgroundContext.fillRect(
+                0,
+                0,
+                backgroundState.width,
+                backgroundState.height
+            );
+
+
+            const blueX =
+                backgroundState.width *
+                (
+                    0.78 +
+                    Math.cos(t * 0.72) *
+                    0.07
+                );
+
+            const blueY =
+                backgroundState.height *
+                (
+                    0.7 +
+                    Math.sin(t * 0.91) *
+                    0.09
+                );
+
+            const blueRadius =
+                Math.max(
+                    280,
+                    backgroundState.width *
+                    0.36
+                );
+
+
+            const blueGradient =
+                backgroundContext
+                    .createRadialGradient(
+                        blueX,
+                        blueY,
+                        0,
+                        blueX,
+                        blueY,
+                        blueRadius
+                    );
+
+            blueGradient.addColorStop(
+                0,
+                rgba(
+                    blue,
+                    0.038
+                )
+            );
+
+            blueGradient.addColorStop(
+                1,
+                rgba(
+                    blue,
+                    0
+                )
+            );
+
+            backgroundContext.fillStyle =
+                blueGradient;
+
+            backgroundContext.fillRect(
+                0,
+                0,
+                backgroundState.width,
+                backgroundState.height
+            );
+        }
+
+
+        function drawPointerCanvasGlow() {
+
+            if (
+                !backgroundState.pointer.active
+            ) {
+                return;
+            }
+
+
+            const pointer =
+                backgroundState.pointer;
+
+            const gradient =
+                backgroundContext
+                    .createRadialGradient(
+                        pointer.x,
+                        pointer.y,
+                        0,
+                        pointer.x,
+                        pointer.y,
+                        pointer.radius * 1.25
+                    );
+
+            gradient.addColorStop(
+                0,
+                rgba(
+                    backgroundState.colors.accent,
+                    0.085
+                )
+            );
+
+            gradient.addColorStop(
+                0.45,
+                rgba(
+                    backgroundState.colors.accent,
+                    0.035
+                )
+            );
+
+            gradient.addColorStop(
+                1,
+                rgba(
+                    backgroundState.colors.accent,
+                    0
+                )
+            );
+
+            backgroundContext.fillStyle =
+                gradient;
+
+            backgroundContext.fillRect(
+                pointer.x -
+                    pointer.radius * 1.25,
+                pointer.y -
+                    pointer.radius * 1.25,
+                pointer.radius * 2.5,
+                pointer.radius * 2.5
+            );
+        }
+
+
+        function updateBackgroundParticle(
+            particle,
+            time
+        ) {
+
+            const pointer =
+                backgroundState.pointer;
+
+
+            if (
+                pointer.active
+            ) {
+
+                const dx =
+                    pointer.x -
+                    particle.x;
+
+                const dy =
+                    pointer.y -
+                    particle.y;
+
+                const distanceSquared =
+                    dx * dx +
+                    dy * dy;
+
+                const pointerRadiusSquared =
+                    pointer.radius *
+                    pointer.radius;
+
+
+                if (
+                    distanceSquared > 0 &&
+                    distanceSquared <
+                    pointerRadiusSquared
+                ) {
+
+                    const distance =
+                        Math.sqrt(
+                            distanceSquared
+                        );
+
+                    const strength =
+                        1 -
+                        distance /
+                        pointer.radius;
+
+                    const directionX =
+                        dx /
+                        distance;
+
+                    const directionY =
+                        dy /
+                        distance;
+
+
+                    if (
+                        distance < 58
+                    ) {
+
+                        particle.vx -=
+                            directionX *
+                            strength *
+                            0.035;
+
+                        particle.vy -=
+                            directionY *
+                            strength *
+                            0.035;
+
+                    } else {
+
+                        particle.vx +=
+                            directionX *
+                            strength *
+                            0.010;
+
+                        particle.vy +=
+                            directionY *
+                            strength *
+                            0.010;
+                    }
+                }
+            }
+
+
+            particle.vx *= 0.997;
+            particle.vy *= 0.997;
+
+
+            const maxSpeed =
+                0.72;
+
+            const speed =
+                Math.hypot(
+                    particle.vx,
+                    particle.vy
+                );
+
+            if (
+                speed > maxSpeed
+            ) {
+
+                particle.vx =
+                    (
+                        particle.vx /
+                        speed
+                    ) *
+                    maxSpeed;
+
+                particle.vy =
+                    (
+                        particle.vy /
+                        speed
+                    ) *
+                    maxSpeed;
+            }
+
+
+            particle.x +=
+                particle.vx +
+                Math.sin(
+                    time * 0.00065 +
+                    particle.phase
+                ) *
+                0.025;
+
+            particle.y +=
+                particle.vy +
+                Math.cos(
+                    time * 0.00055 +
+                    particle.phase
+                ) *
+                0.025;
+
+
+            const margin =
+                18;
+
+            if (
+                particle.x <
+                -margin
+            ) {
+                particle.x =
+                    backgroundState.width +
+                    margin;
+            }
+
+            if (
+                particle.x >
+                backgroundState.width +
+                margin
+            ) {
+                particle.x =
+                    -margin;
+            }
+
+            if (
+                particle.y <
+                -margin
+            ) {
+                particle.y =
+                    backgroundState.height +
+                    margin;
+            }
+
+            if (
+                particle.y >
+                backgroundState.height +
+                margin
+            ) {
+                particle.y =
+                    -margin;
+            }
+        }
+
+
+        function drawBackgroundConnections() {
+
+            const particles =
+                backgroundState.particles;
+
+            const connectionDistance =
+                backgroundState.width < 700
+                    ? 90
+                    : 118;
+
+            const connectionDistanceSquared =
+                connectionDistance *
+                connectionDistance;
+
+
+            for (
+                let i = 0;
+                i < particles.length;
+                i += 1
+            ) {
+
+                for (
+                    let j = i + 1;
+                    j < particles.length;
+                    j += 1
+                ) {
+
+                    const dx =
+                        particles[j].x -
+                        particles[i].x;
+
+                    const dy =
+                        particles[j].y -
+                        particles[i].y;
+
+                    const distanceSquared =
+                        dx * dx +
+                        dy * dy;
+
+
+                    if (
+                        distanceSquared >
+                        connectionDistanceSquared
+                    ) {
+                        continue;
+                    }
+
+
+                    const distance =
+                        Math.sqrt(
+                            distanceSquared
+                        );
+
+                    const alpha =
+                        (
+                            1 -
+                            distance /
+                            connectionDistance
+                        ) *
+                        0.14;
+
+
+                    backgroundContext.beginPath();
+
+                    backgroundContext.moveTo(
+                        particles[i].x,
+                        particles[i].y
+                    );
+
+                    backgroundContext.lineTo(
+                        particles[j].x,
+                        particles[j].y
+                    );
+
+                    backgroundContext.strokeStyle =
+                        rgba(
+                            backgroundState
+                                .colors
+                                .accent,
+                            alpha
+                        );
+
+                    backgroundContext.lineWidth =
+                        0.65;
+
+                    backgroundContext.stroke();
+                }
+            }
+        }
+
+
+        function drawPointerConnections() {
+
+            const pointer =
+                backgroundState.pointer;
+
+            if (
+                !pointer.active
+            ) {
+                return;
+            }
+
+
+            backgroundState.particles
+                .forEach(
+                    particle => {
+
+                        const dx =
+                            pointer.x -
+                            particle.x;
+
+                        const dy =
+                            pointer.y -
+                            particle.y;
+
+                        const distance =
+                            Math.hypot(
+                                dx,
+                                dy
+                            );
+
+
+                        if (
+                            distance >
+                            pointer.radius
+                        ) {
+                            return;
+                        }
+
+
+                        const alpha =
+                            (
+                                1 -
+                                distance /
+                                pointer.radius
+                            ) *
+                            0.28;
+
+
+                        backgroundContext.beginPath();
+
+                        backgroundContext.moveTo(
+                            particle.x,
+                            particle.y
+                        );
+
+                        backgroundContext.lineTo(
+                            pointer.x,
+                            pointer.y
+                        );
+
+                        backgroundContext.strokeStyle =
+                            rgba(
+                                backgroundState
+                                    .colors
+                                    .blue,
+                                alpha
+                            );
+
+                        backgroundContext.lineWidth =
+                            0.8;
+
+                        backgroundContext.stroke();
+                    }
+                );
+        }
+
+
+        function drawBackgroundParticles() {
+
+            backgroundState.particles
+                .forEach(
+                    particle => {
+
+                        backgroundContext.beginPath();
+
+                        backgroundContext.arc(
+                            particle.x,
+                            particle.y,
+                            particle.size,
+                            0,
+                            Math.PI * 2
+                        );
+
+                        backgroundContext.fillStyle =
+                            rgba(
+                                backgroundState
+                                    .colors
+                                    .accent,
+                                0.52
+                            );
+
+                        backgroundContext.fill();
+                    }
+                );
+        }
+
+
+        function renderInteractiveBackground(
+            time = 0,
+            shouldUpdate = true
+        ) {
+
+            backgroundContext.clearRect(
+                0,
+                0,
+                backgroundState.width,
+                backgroundState.height
+            );
+
+
+            drawAmbientCanvasGlow(
+                time
+            );
+
+            drawPointerCanvasGlow();
+
+
+            if (
+                shouldUpdate
+            ) {
+
+                backgroundState.particles
+                    .forEach(
+                        particle => {
+                            updateBackgroundParticle(
+                                particle,
+                                time
+                            );
+                        }
+                    );
+            }
+
+
+            drawBackgroundConnections();
+            drawPointerConnections();
+            drawBackgroundParticles();
+        }
+
+
+        function animateInteractiveBackground(
+            time
+        ) {
+
+            if (
+                !backgroundState.running
+            ) {
+                return;
+            }
+
+
+            renderInteractiveBackground(
+                time,
+                true
+            );
+
+
+            backgroundState.animationFrame =
+                requestAnimationFrame(
+                    animateInteractiveBackground
+                );
+        }
+
+
+        function stopInteractiveBackground() {
+
+            backgroundState.running =
+                false;
+
+
+            if (
+                backgroundState.animationFrame !==
+                null
+            ) {
+
+                cancelAnimationFrame(
+                    backgroundState.animationFrame
+                );
+
+                backgroundState.animationFrame =
+                    null;
+            }
+        }
+
+
+        function startInteractiveBackground() {
+
+            stopInteractiveBackground();
+
+
+            if (
+                reducedMotionQuery.matches
+            ) {
+
+                renderInteractiveBackground(
+                    0,
+                    false
+                );
+
+                return;
+            }
+
+
+            backgroundState.running =
+                true;
+
+            backgroundState.animationFrame =
+                requestAnimationFrame(
+                    animateInteractiveBackground
+                );
+        }
+
+
+        function handleBackgroundPointerMove(
+            event
+        ) {
+
+            backgroundState.pointer.x =
+                event.clientX;
+
+            backgroundState.pointer.y =
+                event.clientY;
+
+            backgroundState.pointer.active =
+                event.pointerType !==
+                "touch";
+
+
+            html.style.setProperty(
+                "--pointer-x",
+                event.clientX + "px"
+            );
+
+            html.style.setProperty(
+                "--pointer-y",
+                event.clientY + "px"
+            );
+        }
+
+
+        function handleBackgroundPointerLeave() {
+
+            backgroundState.pointer.active =
+                false;
+        }
+
+
+        function refreshInteractiveBackground() {
+
+            readBackgroundThemeColors();
+
+            resizeInteractiveBackground();
+
+            startInteractiveBackground();
+        }
+
+
+        readBackgroundThemeColors();
+
+        resizeInteractiveBackground();
+
+        startInteractiveBackground();
+
+
+        window.addEventListener(
+            "pointermove",
+            handleBackgroundPointerMove,
+            {
+                passive: true
+            }
+        );
+
+
+        document.documentElement
+            .addEventListener(
+                "pointerleave",
+                handleBackgroundPointerLeave
+            );
+
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                resizeInteractiveBackground();
+
+                if (
+                    reducedMotionQuery.matches
+                ) {
+
+                    renderInteractiveBackground(
+                        0,
+                        false
+                    );
+                }
+            },
+            {
+                passive: true
+            }
+        );
+
+
+        document.addEventListener(
+            "visibilitychange",
+            () => {
+
+                if (
+                    document.hidden
+                ) {
+
+                    stopInteractiveBackground();
+
+                } else {
+
+                    startInteractiveBackground();
+                }
+            }
+        );
+
+
+        const themeObserver =
+            new MutationObserver(
+                mutations => {
+
+                    const themeChanged =
+                        mutations.some(
+                            mutation =>
+                                mutation.attributeName ===
+                                "data-theme"
+                        );
+
+                    if (
+                        themeChanged
+                    ) {
+
+                        readBackgroundThemeColors();
+
+                        if (
+                            reducedMotionQuery.matches
+                        ) {
+
+                            renderInteractiveBackground(
+                                0,
+                                false
+                            );
+                        }
+                    }
+                }
+            );
+
+
+        themeObserver.observe(
+            html,
+            {
+                attributes: true,
+                attributeFilter: [
+                    "data-theme"
+                ]
+            }
+        );
+
+
+        const handleReducedMotionChange =
+            () => {
+
+                refreshInteractiveBackground();
+            };
+
+
+        if (
+            typeof reducedMotionQuery
+                .addEventListener ===
+            "function"
+        ) {
+
+            reducedMotionQuery
+                .addEventListener(
+                    "change",
+                    handleReducedMotionChange
+                );
+
+        } else if (
+            typeof reducedMotionQuery
+                .addListener ===
+            "function"
+        ) {
+
+            reducedMotionQuery
+                .addListener(
+                    handleReducedMotionChange
+                );
+        }
+
+
+        /* =========================================================
+           9. CLOSE MOBILE MENU AFTER RESIZE
            ========================================================= */
 
         window.addEventListener(

@@ -1,0 +1,3718 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <!-- =========================================================
+         BASIC META
+         ========================================================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Samarth Kumar Samal | Data Science, Healthcare Analytics & Software Engineering
+    </title>
+
+    <meta
+        name="description"
+        content="Portfolio of Samarth Kumar Samal, M.S. Data Science student at the University of Minnesota with research experience in healthcare analytics, IMU signal analysis, ICU patient clustering, and professional software engineering experience at Dell Technologies."
+    >
+
+    <meta
+        name="keywords"
+        content="Samarth Kumar Samal, Data Science, Healthcare Analytics, Machine Learning, University of Minnesota, IMU Signal Analysis, eICU, K-Means, Python, Software Engineering, Dell Technologies"
+    >
+
+    <meta name="author" content="Samarth Kumar Samal">
+    <meta name="robots" content="index, follow">
+
+    <link
+        rel="canonical"
+        href="https://samarth-kumar-samal-sam.github.io/"
+    >
+
+    <!-- =========================================================
+         SOCIAL PREVIEW
+         ========================================================= -->
+    <meta property="og:type" content="website">
+    <meta
+        property="og:url"
+        content="https://samarth-kumar-samal-sam.github.io/"
+    >
+    <meta
+        property="og:title"
+        content="Samarth Kumar Samal | Data Science Portfolio"
+    >
+    <meta
+        property="og:description"
+        content="Graduate data science researcher working across healthcare analytics, biomedical signal analysis, machine learning, and software engineering."
+    >
+    <meta
+        property="og:image"
+        content="profile_picture.png"
+    >
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta
+        name="twitter:title"
+        content="Samarth Kumar Samal | Data Science Portfolio"
+    >
+    <meta
+        name="twitter:description"
+        content="Data Science, Healthcare Analytics, Research, and Software Engineering."
+    >
+    <meta
+        name="twitter:image"
+        content="profile_picture.png"
+    >
+
+    <!-- =========================================================
+         STRUCTURED DATA
+         ========================================================= -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Samarth Kumar Samal",
+        "url": "https://samarth-kumar-samal-sam.github.io/",
+        "image": "https://samarth-kumar-samal-sam.github.io/profile_picture.png",
+        "email": "mailto:samal026@umn.edu",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Minneapolis",
+            "addressRegion": "Minnesota",
+            "addressCountry": "US"
+        },
+        "alumniOf": [
+            {
+                "@type": "CollegeOrUniversity",
+                "name": "University of Minnesota Twin Cities"
+            },
+            {
+                "@type": "CollegeOrUniversity",
+                "name": "Odisha University of Technology and Research"
+            }
+        ],
+        "sameAs": [
+            "https://www.linkedin.com/in/samarth-kumar-samal/",
+            "https://github.com/Samarth-Kumar-Samal-Sam"
+        ]
+    }
+    </script>
+
+    <style>
+        /* =========================================================
+           1. DESIGN SYSTEM
+           ========================================================= */
+
+        :root {
+            --max-width: 1180px;
+            --nav-height: 72px;
+
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 22px;
+
+            --transition: 180ms ease;
+
+            --font-main:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+        html[data-theme="dark"] {
+            --background: #0a0f16;
+            --background-secondary: #0e151e;
+
+            --surface: #111a25;
+            --surface-hover: #16212d;
+
+            --border: #253241;
+            --border-strong: #34475b;
+
+            --text: #f4f7fa;
+            --text-secondary: #c1ccd6;
+            --muted: #8795a4;
+
+            --accent: #62d6c8;
+            --accent-hover: #82e3d7;
+            --accent-soft: rgba(98, 214, 200, 0.09);
+
+            --blue: #7ba9ff;
+            --green: #68d391;
+
+            --header: rgba(10, 15, 22, 0.88);
+
+            --shadow:
+                0 20px 50px rgba(0, 0, 0, 0.22);
+        }
+
+        html[data-theme="light"] {
+            --background: #f7f9fb;
+            --background-secondary: #ffffff;
+
+            --surface: #ffffff;
+            --surface-hover: #f6f8fa;
+
+            --border: #dde3e8;
+            --border-strong: #c7d0d9;
+
+            --text: #17202a;
+            --text-secondary: #374553;
+            --muted: #667483;
+
+            --accent: #087f75;
+            --accent-hover: #056960;
+            --accent-soft: rgba(8, 127, 117, 0.08);
+
+            --blue: #336fc5;
+            --green: #25855a;
+
+            --header: rgba(247, 249, 251, 0.9);
+
+            --shadow:
+                0 18px 45px rgba(24, 39, 56, 0.08);
+        }
+
+
+        /* =========================================================
+           2. RESET
+           ========================================================= */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--nav-height) + 20px);
+        }
+
+        body {
+            margin: 0;
+            min-width: 320px;
+
+            background: var(--background);
+            color: var(--text);
+
+            font-family: var(--font-main);
+            font-size: 16px;
+            line-height: 1.7;
+
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+
+            background:
+                radial-gradient(
+                    circle at 10% 5%,
+                    var(--accent-soft),
+                    transparent 34rem
+                );
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        p {
+            margin-top: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+
+        p {
+            color: var(--text-secondary);
+        }
+
+        ::selection {
+            color: #071514;
+            background: var(--accent);
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 4px;
+        }
+
+
+        /* =========================================================
+           3. COMMON ELEMENTS
+           ========================================================= */
+
+        .container {
+            width: min(
+                var(--max-width),
+                calc(100% - 2.5rem)
+            );
+
+            margin-inline: auto;
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-alt {
+            background: var(--background-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-header {
+            max-width: 760px;
+            margin-bottom: 2.8rem;
+        }
+
+        .eyebrow {
+            margin-bottom: 0.65rem;
+
+            color: var(--accent);
+
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            margin-bottom: 0.9rem;
+
+            font-size: clamp(
+                2rem,
+                5vw,
+                3.4rem
+            );
+        }
+
+        .section-intro {
+            max-width: 680px;
+            margin-bottom: 0;
+
+            color: var(--muted);
+
+            font-size: 1rem;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            background: var(--surface);
+
+            box-shadow: var(--shadow);
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 0.75rem;
+        }
+
+        .button {
+            display: inline-flex;
+
+            min-height: 46px;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 0.5rem;
+
+            padding: 0.75rem 1rem;
+
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+
+            font-size: 0.88rem;
+            font-weight: 700;
+
+            transition:
+                background var(--transition),
+                border-color var(--transition),
+                color var(--transition),
+                transform var(--transition);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button-primary {
+            color: #071514;
+            background: var(--accent);
+        }
+
+        .button-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .button-secondary {
+            color: var(--text-secondary);
+
+            border-color: var(--border);
+
+            background: var(--surface);
+        }
+
+        .button-secondary:hover {
+            color: var(--text);
+
+            border-color: var(--border-strong);
+
+            background: var(--surface-hover);
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 0.5rem;
+        }
+
+        .tag {
+            display: inline-flex;
+
+            align-items: center;
+
+            min-height: 30px;
+
+            padding: 0.32rem 0.65rem;
+
+            border: 1px solid var(--border);
+            border-radius: 999px;
+
+            color: var(--text-secondary);
+
+            background: var(--background);
+
+            font-size: 0.75rem;
+            font-weight: 650;
+        }
+
+        .tag.accent {
+            color: var(--accent);
+
+            border-color:
+                color-mix(
+                    in srgb,
+                    var(--accent) 45%,
+                    var(--border)
+                );
+
+            background: var(--accent-soft);
+        }
+
+        .clean-list {
+            padding: 0;
+            margin: 0;
+
+            list-style: none;
+        }
+
+        .clean-list li {
+            position: relative;
+
+            margin-bottom: 0.8rem;
+
+            padding-left: 1.25rem;
+
+            color: var(--text-secondary);
+        }
+
+        .clean-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .clean-list li::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0.7rem;
+            left: 0;
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--accent);
+        }
+
+
+        /* =========================================================
+           4. SKIP LINK
+           ========================================================= */
+
+        .skip-link {
+            position: fixed;
+
+            top: 1rem;
+            left: 1rem;
+
+            z-index: 9999;
+
+            padding: 0.65rem 0.9rem;
+
+            border-radius: 8px;
+
+            color: #071514;
+            background: var(--accent);
+
+            font-weight: 700;
+
+            transform: translateY(-180%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+
+        /* =========================================================
+           5. NAVIGATION
+           ========================================================= */
+
+        .site-header {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            z-index: 1000;
+
+            width: 100%;
+
+            border-bottom: 1px solid transparent;
+
+            transition:
+                background var(--transition),
+                border-color var(--transition),
+                box-shadow var(--transition);
+        }
+
+        .site-header.scrolled {
+            border-color: var(--border);
+
+            background: var(--header);
+
+            box-shadow:
+                0 8px 25px
+                rgba(0, 0, 0, 0.08);
+
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .nav-container {
+            display: flex;
+
+            min-height: var(--nav-height);
+
+            align-items: center;
+
+            gap: 1rem;
+        }
+
+        .brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.7rem;
+
+            margin-right: auto;
+
+            font-weight: 800;
+        }
+
+        .brand-mark {
+            display: grid;
+
+            width: 38px;
+            height: 38px;
+
+            place-items: center;
+
+            border-radius: 10px;
+
+            color: #071514;
+            background: var(--accent);
+
+            font-size: 0.77rem;
+            font-weight: 900;
+        }
+
+        .brand-name {
+            white-space: nowrap;
+
+            font-size: 0.92rem;
+        }
+
+        .nav-menu {
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.2rem;
+
+            padding: 0;
+            margin: 0;
+
+            list-style: none;
+        }
+
+        .nav-link {
+            display: inline-flex;
+
+            align-items: center;
+
+            min-height: 40px;
+
+            padding: 0.5rem 0.65rem;
+
+            border-radius: 8px;
+
+            color: var(--muted);
+
+            font-size: 0.8rem;
+            font-weight: 650;
+
+            transition:
+                color var(--transition),
+                background var(--transition);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--text);
+
+            background: var(--surface);
+        }
+
+        .nav-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.5rem;
+        }
+
+        .icon-button {
+            display: grid;
+
+            width: 40px;
+            height: 40px;
+
+            place-items: center;
+
+            border: 1px solid var(--border);
+            border-radius: 9px;
+
+            color: var(--text-secondary);
+            background: var(--surface);
+
+            cursor: pointer;
+
+            transition:
+                border-color var(--transition),
+                color var(--transition),
+                background var(--transition);
+        }
+
+        .icon-button:hover {
+            color: var(--accent);
+
+            border-color: var(--border-strong);
+
+            background: var(--surface-hover);
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        .light-icon {
+            display: none;
+        }
+
+        html[data-theme="light"] .dark-icon {
+            display: none;
+        }
+
+        html[data-theme="light"] .light-icon {
+            display: inline;
+        }
+
+
+        /* =========================================================
+           6. HERO
+           ========================================================= */
+
+        .hero {
+            display: flex;
+
+            min-height: 100svh;
+
+            align-items: center;
+
+            padding-top:
+                calc(var(--nav-height) + 4rem);
+
+            padding-bottom: 5rem;
+        }
+
+        .hero-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.15fr)
+                minmax(320px, 0.62fr);
+
+            align-items: center;
+
+            gap: clamp(
+                2.5rem,
+                7vw,
+                6rem
+            );
+        }
+
+        .hero-label {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 0.5rem;
+
+            margin-bottom: 1.2rem;
+
+            color: var(--accent);
+
+            font-size: 0.82rem;
+            font-weight: 750;
+        }
+
+        .hero-label::before {
+            content: "";
+
+            width: 24px;
+            height: 2px;
+
+            background: var(--accent);
+        }
+
+        .hero h1 {
+            max-width: 820px;
+
+            margin-bottom: 1.3rem;
+
+            font-size: clamp(
+                3rem,
+                7vw,
+                6rem
+            );
+
+            line-height: 0.98;
+
+            letter-spacing: -0.06em;
+        }
+
+        .hero h1 span {
+            display: block;
+
+            color: var(--accent);
+        }
+
+        .hero-role {
+            max-width: 760px;
+
+            margin-bottom: 1rem;
+
+            color: var(--text);
+
+            font-size: clamp(
+                1.08rem,
+                2vw,
+                1.35rem
+            );
+
+            font-weight: 650;
+        }
+
+        .hero-description {
+            max-width: 720px;
+
+            margin-bottom: 1.8rem;
+
+            color: var(--muted);
+
+            font-size: 1rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 0.65rem 1.2rem;
+
+            padding: 0;
+            margin: 1.7rem 0 0;
+
+            list-style: none;
+
+            color: var(--muted);
+
+            font-size: 0.84rem;
+        }
+
+        .hero-meta strong {
+            color: var(--text-secondary);
+
+            font-weight: 700;
+        }
+
+        .profile-card {
+            padding: 0.75rem;
+
+            border: 1px solid var(--border);
+            border-radius: 26px;
+
+            background: var(--surface);
+
+            box-shadow: var(--shadow);
+        }
+
+        .profile-image-wrap {
+            position: relative;
+
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            background: var(--background-secondary);
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 460px;
+
+            object-fit: cover;
+            object-position: center top;
+
+            transition:
+                transform 400ms ease;
+        }
+
+        .profile-card:hover .profile-image {
+            transform: scale(1.015);
+        }
+
+        .profile-caption {
+            position: absolute;
+
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            padding:
+                5rem
+                1.3rem
+                1.2rem;
+
+            background:
+                linear-gradient(
+                    to top,
+                    rgba(6, 11, 17, 0.96),
+                    transparent
+                );
+        }
+
+        .profile-caption small {
+            display: block;
+
+            margin-bottom: 0.2rem;
+
+            color: rgba(255, 255, 255, 0.62);
+
+            font-size: 0.7rem;
+            font-weight: 750;
+            letter-spacing: 0.1em;
+
+            text-transform: uppercase;
+        }
+
+        .profile-caption strong {
+            color: #ffffff;
+
+            font-size: 1.05rem;
+        }
+
+
+        /* =========================================================
+           7. QUICK OVERVIEW
+           ========================================================= */
+
+        .overview {
+            padding-top: 0;
+        }
+
+        .overview-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            overflow: hidden;
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            background: var(--surface);
+
+            box-shadow: var(--shadow);
+        }
+
+        .overview-item {
+            padding: 1.5rem;
+        }
+
+        .overview-item + .overview-item {
+            border-left: 1px solid var(--border);
+        }
+
+        .overview-value {
+            display: block;
+
+            margin-bottom: 0.35rem;
+
+            color: var(--accent);
+
+            font-size: clamp(
+                1.65rem,
+                4vw,
+                2.4rem
+            );
+
+            font-weight: 850;
+
+            line-height: 1;
+        }
+
+        .overview-label {
+            color: var(--muted);
+
+            font-size: 0.8rem;
+            font-weight: 650;
+        }
+
+
+        /* =========================================================
+           8. ABOUT
+           ========================================================= */
+
+        .about-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.15fr)
+                minmax(300px, 0.7fr);
+
+            gap: 1.4rem;
+        }
+
+        .about-main {
+            padding: clamp(
+                1.5rem,
+                4vw,
+                2.5rem
+            );
+        }
+
+        .about-main h3 {
+            margin-bottom: 1rem;
+
+            font-size: 1.45rem;
+        }
+
+        .about-main p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-side {
+            display: grid;
+
+            gap: 1.4rem;
+        }
+
+        .info-card {
+            padding: 1.4rem;
+        }
+
+        .info-card h3 {
+            margin-bottom: 1rem;
+
+            font-size: 1rem;
+        }
+
+        .education-entry + .education-entry {
+            margin-top: 1.15rem;
+            padding-top: 1.15rem;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .education-entry strong {
+            display: block;
+
+            margin-bottom: 0.25rem;
+
+            font-size: 0.92rem;
+        }
+
+        .education-entry span {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 0.8rem;
+        }
+
+
+        /* =========================================================
+           9. RESEARCH
+           ========================================================= */
+
+        .research-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 1.4rem;
+        }
+
+        .research-card {
+            display: flex;
+
+            min-height: 100%;
+
+            flex-direction: column;
+
+            padding: clamp(
+                1.5rem,
+                3vw,
+                2rem
+            );
+        }
+
+        .research-meta {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 1rem;
+
+            margin-bottom: 1.2rem;
+        }
+
+        .research-number {
+            display: grid;
+
+            width: 43px;
+            height: 43px;
+
+            place-items: center;
+
+            border: 1px solid var(--border);
+            border-radius: 11px;
+
+            color: var(--accent);
+
+            background: var(--accent-soft);
+
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .date-badge {
+            color: var(--muted);
+
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+
+        .research-card h3 {
+            margin-bottom: 0.45rem;
+
+            font-size: 1.4rem;
+        }
+
+        .research-role {
+            margin-bottom: 0.2rem;
+
+            color: var(--accent);
+
+            font-size: 0.83rem;
+            font-weight: 700;
+        }
+
+        .research-affiliation {
+            margin-bottom: 1.2rem;
+
+            color: var(--muted);
+
+            font-size: 0.8rem;
+        }
+
+        .research-card .clean-list {
+            margin-bottom: 1.4rem;
+        }
+
+        .research-card .tag-list {
+            margin-top: auto;
+        }
+
+
+        /* =========================================================
+           10. EXPERIENCE
+           ========================================================= */
+
+        .experience-card {
+            padding: clamp(
+                1.5rem,
+                4vw,
+                2.5rem
+            );
+        }
+
+        .experience-heading {
+            display: flex;
+
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 2rem;
+
+            margin-bottom: 1.7rem;
+            padding-bottom: 1.5rem;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .experience-heading h3 {
+            margin-bottom: 0.3rem;
+
+            font-size: 1.55rem;
+        }
+
+        .company {
+            margin: 0;
+
+            color: var(--accent);
+
+            font-weight: 700;
+        }
+
+        .experience-date {
+            color: var(--muted);
+
+            font-size: 0.8rem;
+
+            text-align: right;
+        }
+
+        .experience-date strong {
+            display: block;
+
+            color: var(--text-secondary);
+        }
+
+        .experience-stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 0.8rem;
+
+            margin-bottom: 1.6rem;
+        }
+
+        .stat {
+            padding: 1rem;
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+
+            background: var(--background);
+        }
+
+        .stat strong {
+            display: block;
+
+            margin-bottom: 0.25rem;
+
+            color: var(--accent);
+
+            font-size: 1.25rem;
+        }
+
+        .stat span {
+            color: var(--muted);
+
+            font-size: 0.75rem;
+        }
+
+
+        /* =========================================================
+           11. SKILLS
+           ========================================================= */
+
+        .skills-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 1rem;
+        }
+
+        .skill-card {
+            padding: 1.3rem;
+        }
+
+        .skill-card h3 {
+            margin-bottom: 0.8rem;
+
+            font-size: 1rem;
+        }
+
+        .skill-category {
+            display: block;
+
+            margin-bottom: 0.55rem;
+
+            color: var(--accent);
+
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+        }
+
+        .skill-text {
+            margin: 0;
+
+            color: var(--text-secondary);
+
+            font-size: 0.88rem;
+        }
+
+
+        /* =========================================================
+           12. PROJECTS
+           ========================================================= */
+
+        .projects-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 1.4rem;
+        }
+
+        .project-card {
+            display: flex;
+
+            min-height: 100%;
+
+            flex-direction: column;
+
+            padding: clamp(
+                1.5rem,
+                3vw,
+                2rem
+            );
+        }
+
+        .project-type {
+            margin-bottom: 0.65rem;
+
+            color: var(--accent);
+
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+        }
+
+        .project-card h3 {
+            margin-bottom: 0.7rem;
+
+            font-size: 1.4rem;
+        }
+
+        .project-summary {
+            margin-bottom: 1.2rem;
+
+            color: var(--muted);
+
+            font-size: 0.92rem;
+        }
+
+        .project-metrics {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 0.6rem;
+
+            margin-bottom: 1.3rem;
+        }
+
+        .project-metric {
+            padding: 0.75rem;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            background: var(--background);
+        }
+
+        .project-metric strong {
+            display: block;
+
+            color: var(--accent);
+
+            font-size: 1rem;
+        }
+
+        .project-metric span {
+            color: var(--muted);
+
+            font-size: 0.68rem;
+        }
+
+        .project-card .clean-list {
+            margin-bottom: 1.3rem;
+        }
+
+        .project-card .tag-list {
+            margin-bottom: 1.3rem;
+        }
+
+        .project-actions {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 0.7rem;
+
+            margin-top: auto;
+        }
+
+
+        /* =========================================================
+           13. CONTACT
+           ========================================================= */
+
+        .contact-card {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                auto;
+
+            align-items: center;
+
+            gap: 2rem;
+
+            padding: clamp(
+                1.8rem,
+                5vw,
+                3rem
+            );
+
+            border-color: var(--border-strong);
+        }
+
+        .contact-card h2 {
+            max-width: 680px;
+
+            margin-bottom: 0.7rem;
+
+            font-size: clamp(
+                2rem,
+                5vw,
+                3.3rem
+            );
+        }
+
+        .contact-card p {
+            max-width: 650px;
+
+            margin-bottom: 0;
+
+            color: var(--muted);
+        }
+
+        .contact-actions {
+            display: flex;
+
+            min-width: 190px;
+
+            flex-direction: column;
+
+            gap: 0.7rem;
+        }
+
+
+        /* =========================================================
+           14. FOOTER
+           ========================================================= */
+
+        footer {
+            padding: 1.8rem 0 2rem;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-inner {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 1rem;
+
+            color: var(--muted);
+
+            font-size: 0.78rem;
+        }
+
+        .footer-inner p {
+            margin: 0;
+
+            color: var(--muted);
+        }
+
+        .footer-links {
+            display: flex;
+
+            gap: 1rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+
+        /* =========================================================
+           15. SCROLL TO TOP
+           ========================================================= */
+
+        .scroll-top {
+            position: fixed;
+
+            right: 1.2rem;
+            bottom: 1.2rem;
+
+            z-index: 800;
+
+            display: grid;
+
+            width: 44px;
+            height: 44px;
+
+            place-items: center;
+
+            border: 1px solid var(--border);
+            border-radius: 10px;
+
+            color: #071514;
+            background: var(--accent);
+
+            cursor: pointer;
+
+            opacity: 0;
+            visibility: hidden;
+
+            transform: translateY(10px);
+
+            transition:
+                opacity var(--transition),
+                visibility var(--transition),
+                transform var(--transition);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+
+            transform: translateY(0);
+        }
+
+
+        /* =========================================================
+           16. REVEAL EFFECT
+           ========================================================= */
+
+        .reveal {
+            opacity: 0;
+
+            transform: translateY(18px);
+
+            transition:
+                opacity 500ms ease,
+                transform 500ms ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        /* =========================================================
+           17. RESPONSIVE DESIGN
+           ========================================================= */
+
+        @media (max-width: 940px) {
+
+            .menu-toggle {
+                display: grid;
+            }
+
+            .nav-menu {
+                position: fixed;
+
+                top: calc(var(--nav-height) + 0.5rem);
+                right: 1rem;
+                left: 1rem;
+
+                display: grid;
+
+                padding: 0.7rem;
+
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+
+                background: var(--header);
+
+                box-shadow: var(--shadow);
+
+                backdrop-filter: blur(18px);
+
+                opacity: 0;
+                visibility: hidden;
+
+                transform: translateY(-10px);
+
+                transition:
+                    opacity var(--transition),
+                    visibility var(--transition),
+                    transform var(--transition);
+            }
+
+            .nav-menu.open {
+                opacity: 1;
+                visibility: visible;
+
+                transform: translateY(0);
+            }
+
+            .nav-link {
+                width: 100%;
+
+                padding: 0.65rem 0.8rem;
+            }
+
+            .hero {
+                min-height: auto;
+
+                padding-top:
+                    calc(var(--nav-height) + 5rem);
+            }
+
+            .hero-grid,
+            .about-grid,
+            .contact-card {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                width: min(100%, 500px);
+            }
+
+            .overview-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .overview-item:nth-child(3) {
+                border-left: none;
+            }
+
+            .overview-item:nth-child(-n + 2) {
+                border-bottom: 1px solid var(--border);
+            }
+
+            .experience-stats {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .skills-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .contact-actions {
+                width: min(100%, 360px);
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            .container {
+                width:
+                    min(
+                        var(--max-width),
+                        calc(100% - 1.4rem)
+                    );
+            }
+
+            section {
+                padding: 4.5rem 0;
+            }
+
+            .brand-name {
+                display: none;
+            }
+
+            .hero {
+                padding-top:
+                    calc(var(--nav-height) + 3.5rem);
+            }
+
+            .hero h1 {
+                font-size:
+                    clamp(
+                        2.9rem,
+                        15vw,
+                        4.6rem
+                    );
+            }
+
+            .profile-image {
+                height: 390px;
+            }
+
+            .research-grid,
+            .skills-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-heading {
+                display: grid;
+
+                gap: 0.8rem;
+            }
+
+            .experience-date {
+                text-align: left;
+            }
+
+            .project-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+
+            .hero .button-group,
+            .hero .button {
+                width: 100%;
+            }
+
+            .overview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .overview-item + .overview-item {
+                border-left: none;
+                border-top: 1px solid var(--border);
+            }
+
+            .overview-item:nth-child(-n + 2) {
+                border-bottom: none;
+            }
+
+            .experience-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-actions,
+            .contact-actions .button {
+                width: 100%;
+            }
+        }
+
+
+        /* =========================================================
+           18. REDUCED MOTION
+           ========================================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================================================
+         ACCESSIBILITY
+         ========================================================= -->
+
+    <a
+        class="skip-link"
+        href="#main-content"
+    >
+        Skip to main content
+    </a>
+
+
+    <!-- =========================================================
+         NAVIGATION
+         ========================================================= -->
+
+    <header
+        class="site-header"
+        id="siteHeader"
+    >
+        <div class="container nav-container">
+
+            <a
+                class="brand"
+                href="#home"
+                aria-label="Go to homepage"
+            >
+                <span
+                    class="brand-mark"
+                    aria-hidden="true"
+                >
+                    SKS
+                </span>
+
+                <span class="brand-name">
+                    Samarth Kumar Samal
+                </span>
+            </a>
+
+
+            <nav aria-label="Primary navigation">
+
+                <ul
+                    class="nav-menu"
+                    id="navMenu"
+                >
+                    <li>
+                        <a
+                            class="nav-link active"
+                            href="#home"
+                        >
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="#about"
+                        >
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="#research"
+                        >
+                            Research
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="#experience"
+                        >
+                            Experience
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="#skills"
+                        >
+                            Skills
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="#projects"
+                        >
+                            Projects
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="#contact"
+                        >
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <button
+                    class="icon-button"
+                    id="themeToggle"
+                    type="button"
+                    aria-label="Change color theme"
+                >
+                    <span
+                        class="dark-icon"
+                        aria-hidden="true"
+                    >
+                        ☾
+                    </span>
+
+                    <span
+                        class="light-icon"
+                        aria-hidden="true"
+                    >
+                        ☀
+                    </span>
+                </button>
+
+
+                <button
+                    class="icon-button menu-toggle"
+                    id="menuToggle"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-controls="navMenu"
+                    aria-expanded="false"
+                >
+                    <span
+                        id="menuIcon"
+                        aria-hidden="true"
+                    >
+                        ☰
+                    </span>
+                </button>
+
+            </div>
+
+        </div>
+    </header>
+
+
+
+    <main id="main-content">
+
+
+        <!-- =====================================================
+             HERO
+             ===================================================== -->
+
+        <section
+            class="hero"
+            id="home"
+            aria-labelledby="hero-title"
+        >
+
+            <div class="container hero-grid">
+
+                <div class="hero-copy reveal">
+
+                    <p class="hero-label">
+                        Data Science · Healthcare Analytics · Software Engineering
+                    </p>
+
+
+                    <h1 id="hero-title">
+                        Samarth Kumar
+                        <span>Samal.</span>
+                    </h1>
+
+
+                    <p class="hero-role">
+                        M.S. Data Science student at the University of Minnesota
+                        Twin Cities with two years of professional software
+                        engineering experience at Dell Technologies.
+                    </p>
+
+
+                    <p class="hero-description">
+                        My current graduate research focuses on IMU signal
+                        analysis for Parkinson's disease and clustering ICU
+                        patients using electronic health record data. I enjoy
+                        working on problems that require careful data
+                        preparation, sound analysis, reproducible code, and
+                        clear interpretation.
+                    </p>
+
+
+                    <div class="button-group">
+
+                        <a
+                            class="button button-primary"
+                            href="#research"
+                        >
+                            View Research
+                            <span aria-hidden="true">↓</span>
+                        </a>
+
+
+                        <a
+                            class="button button-secondary"
+                            href="Samarth_Kumar_Samal_Resume.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            View Resume
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+
+                        <a
+                            class="button button-secondary"
+                            href="https://github.com/Samarth-Kumar-Samal-Sam"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            GitHub
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+                    </div>
+
+
+                    <ul
+                        class="hero-meta"
+                        aria-label="Professional information"
+                    >
+                        <li>
+                            <strong>Location:</strong>
+                            Minneapolis, Minnesota
+                        </li>
+
+                        <li>
+                            <strong>Degree:</strong>
+                            M.S. Data Science
+                        </li>
+
+                        <li>
+                            <strong>Graduation:</strong>
+                            Expected Spring 2027
+                        </li>
+                    </ul>
+
+                </div>
+
+
+
+                <div class="profile-card reveal">
+
+                    <div class="profile-image-wrap">
+
+                        <img
+                            class="profile-image"
+                            src="profile_picture.png"
+                            alt="Portrait of Samarth Kumar Samal"
+                            width="640"
+                            height="760"
+                            loading="eager"
+                            decoding="async"
+                        >
+
+
+                        <div class="profile-caption">
+
+                            <small>
+                                Current focus
+                            </small>
+
+                            <strong>
+                                Healthcare Data Science & Research
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             QUICK OVERVIEW
+             ===================================================== -->
+
+        <section
+            class="overview"
+            aria-label="Professional overview"
+        >
+
+            <div class="container">
+
+                <div class="overview-grid reveal">
+
+                    <div class="overview-item">
+
+                        <strong class="overview-value">
+                            2 Years
+                        </strong>
+
+                        <span class="overview-label">
+                            Software engineering experience
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <strong class="overview-value">
+                            2
+                        </strong>
+
+                        <span class="overview-label">
+                            Current graduate research roles
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <strong class="overview-value">
+                            50+
+                        </strong>
+
+                        <span class="overview-label">
+                            Jira issues resolved at Dell
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <strong class="overview-value">
+                            100+
+                        </strong>
+
+                        <span class="overview-label">
+                            Technical investigations contributed to
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             ABOUT
+             ===================================================== -->
+
+        <section
+            id="about"
+            aria-labelledby="about-title"
+        >
+
+            <div class="container">
+
+                <div class="section-header reveal">
+
+                    <p class="eyebrow">
+                        About
+                    </p>
+
+                    <h2
+                        class="section-title"
+                        id="about-title"
+                    >
+                        Data science grounded in research
+                        and engineering experience.
+                    </h2>
+
+                    <p class="section-intro">
+                        My background combines graduate research in healthcare
+                        data with professional experience building and
+                        troubleshooting enterprise software systems.
+                    </p>
+
+                </div>
+
+
+
+                <div class="about-grid">
+
+                    <article class="card about-main reveal">
+
+                        <h3>
+                            A background across data, research,
+                            and software engineering
+                        </h3>
+
+
+                        <p>
+                            I am pursuing a Master of Science in Data Science at
+                            the University of Minnesota Twin Cities, with a minor
+                            in Computer Science. My graduate work has given me
+                            the opportunity to apply data science methods to
+                            healthcare problems involving both physiological
+                            signals and electronic health records.
+                        </p>
+
+
+                        <p>
+                            At the Neuromodulation Center, I work with
+                            six-axis inertial measurement unit data and study
+                            movement patterns through time-domain and
+                            frequency-domain signal analysis. In my capstone
+                            research, I work with the eICU Collaborative
+                            Research Database to study clinically meaningful
+                            patient subtypes through clustering.
+                        </p>
+
+
+                        <p>
+                            Before graduate school, I spent two years at Dell
+                            Technologies as a Software Engineer. My work there
+                            involved debugging, testing, validation, server
+                            environments, operating systems, and collaboration
+                            across engineering teams. That experience continues
+                            to influence how I approach data science:
+                            systematically, reproducibly, and with close
+                            attention to the details.
+                        </p>
+
+                    </article>
+
+
+
+                    <aside
+                        class="about-side"
+                        aria-label="Education"
+                    >
+
+                        <article class="card info-card reveal">
+
+                            <h3>
+                                Education
+                            </h3>
+
+
+                            <div class="education-entry">
+
+                                <strong>
+                                    University of Minnesota, Twin Cities
+                                </strong>
+
+                                <span>
+                                    Master of Science in Data Science
+                                </span>
+
+                                <span>
+                                    Minor in Computer Science
+                                </span>
+
+                                <span>
+                                    GPA: 3.61 / 4.00
+                                </span>
+
+                                <span>
+                                    Expected Spring 2027
+                                </span>
+
+                            </div>
+
+
+                            <div class="education-entry">
+
+                                <strong>
+                                    Odisha University of Technology and Research
+                                </strong>
+
+                                <span>
+                                    Bachelor of Technology in Electrical Engineering
+                                </span>
+
+                                <span>
+                                    GPA: 3.83 / 4.00
+                                </span>
+
+                                <span>
+                                    2018 – 2022
+                                </span>
+
+                            </div>
+
+                        </article>
+
+
+
+                        <article class="card info-card reveal">
+
+                            <h3>
+                                Areas of Work
+                            </h3>
+
+                            <div class="tag-list">
+
+                                <span class="tag accent">
+                                    Healthcare Data Analysis
+                                </span>
+
+                                <span class="tag">
+                                    IMU Signals
+                                </span>
+
+                                <span class="tag">
+                                    ICU Data
+                                </span>
+
+                                <span class="tag">
+                                    Clustering
+                                </span>
+
+                                <span class="tag">
+                                    Signal Analysis
+                                </span>
+
+                                <span class="tag">
+                                    Machine Learning
+                                </span>
+
+                            </div>
+
+                        </article>
+
+                    </aside>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             RESEARCH
+             ===================================================== -->
+
+        <section
+            class="section-alt"
+            id="research"
+            aria-labelledby="research-title"
+        >
+
+            <div class="container">
+
+                <div class="section-header reveal">
+
+                    <p class="eyebrow">
+                        Research Experience
+                    </p>
+
+                    <h2
+                        class="section-title"
+                        id="research-title"
+                    >
+                        Graduate research in biomedical
+                        signals and critical care data.
+                    </h2>
+
+                    <p class="section-intro">
+                        My current research involves two different types of
+                        healthcare data: continuous IMU sensor signals and
+                        electronic health records from intensive care units.
+                    </p>
+
+                </div>
+
+
+
+                <div class="research-grid">
+
+
+                    <!-- =========================================
+                         IMU RESEARCH
+                         ========================================= -->
+
+                    <article class="card research-card reveal">
+
+                        <div class="research-meta">
+
+                            <span class="research-number">
+                                01
+                            </span>
+
+                            <span class="date-badge">
+                                May 2026 – Present
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            Graduate Researcher
+                        </h3>
+
+                        <p class="research-role">
+                            Neuromodulation Center
+                        </p>
+
+                        <p class="research-affiliation">
+                            Department of Neurology · University of Minnesota
+                            <br>
+                            Principal Investigator: Prof. Biswaranjan Mohanty
+                        </p>
+
+
+                        <ul class="clean-list">
+
+                            <li>
+                                Analyze and preprocess raw six-axis IMU data
+                                containing three-axis accelerometer and
+                                three-axis gyroscope signals.
+                            </li>
+
+                            <li>
+                                Develop a reproducible workflow for continuous,
+                                unlabeled sensor data with the goal of
+                                identifying movement segments such as resting,
+                                walking, and turning.
+                            </li>
+
+                            <li>
+                                Perform time-domain and frequency-domain
+                                analysis, including power spectral density and
+                                spectrogram analysis.
+                            </li>
+
+                            <li>
+                                Investigate signal characteristics and extracted
+                                features that can support movement
+                                classification and later Parkinsonian gait
+                                analysis.
+                            </li>
+
+                        </ul>
+
+
+                        <div class="tag-list">
+
+                            <span class="tag accent">
+                                Python
+                            </span>
+
+                            <span class="tag">
+                                IMU Signals
+                            </span>
+
+                            <span class="tag">
+                                Signal Processing
+                            </span>
+
+                            <span class="tag">
+                                Power Spectral Density
+                            </span>
+
+                            <span class="tag">
+                                Spectrogram
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- =========================================
+                         eICU RESEARCH
+                         ========================================= -->
+
+                    <article class="card research-card reveal">
+
+                        <div class="research-meta">
+
+                            <span class="research-number">
+                                02
+                            </span>
+
+                            <span class="date-badge">
+                                May 2026 – Present
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            Capstone Researcher
+                        </h3>
+
+                        <p class="research-role">
+                            Division of Computational Health Sciences
+                        </p>
+
+                        <p class="research-affiliation">
+                            Department of Surgery · University of Minnesota
+                            <br>
+                            Principal Investigator: Prof. Jocelyn Chi
+                        </p>
+
+
+                        <ul class="clean-list">
+
+                            <li>
+                                Build a reproducible data-processing pipeline
+                                using the eICU Collaborative Research Database.
+                            </li>
+
+                            <li>
+                                Combine demographic, laboratory, vital-sign,
+                                and illness-severity information for ICU patient
+                                analysis.
+                            </li>
+
+                            <li>
+                                Prepare first-24-hour clinical features through
+                                cohort selection, data-quality checks,
+                                missing-value handling, aggregation, feature
+                                engineering, and scaling.
+                            </li>
+
+                            <li>
+                                Evaluate K-Means clustering using
+                                within-cluster sum of squares, silhouette
+                                scores, cluster size, stability, and clinical
+                                interpretability.
+                            </li>
+
+                            <li>
+                                Characterize patient groups using clinical
+                                features, APACHE IVa severity, mortality,
+                                and length of stay.
+                            </li>
+
+                        </ul>
+
+
+                        <div class="tag-list">
+
+                            <span class="tag accent">
+                                eICU
+                            </span>
+
+                            <span class="tag">
+                                K-Means
+                            </span>
+
+                            <span class="tag">
+                                Clinical Data
+                            </span>
+
+                            <span class="tag">
+                                Clustering
+                            </span>
+
+                            <span class="tag">
+                                Python
+                            </span>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             PROFESSIONAL EXPERIENCE
+             ===================================================== -->
+
+        <section
+            id="experience"
+            aria-labelledby="experience-title"
+        >
+
+            <div class="container">
+
+                <div class="section-header reveal">
+
+                    <p class="eyebrow">
+                        Professional Experience
+                    </p>
+
+                    <h2
+                        class="section-title"
+                        id="experience-title"
+                    >
+                        Software engineering experience
+                        in enterprise systems.
+                    </h2>
+
+                    <p class="section-intro">
+                        Before beginning graduate study, I worked at Dell
+                        Technologies on update-package and server-related
+                        engineering workflows across Windows and Linux
+                        environments.
+                    </p>
+
+                </div>
+
+
+
+                <article class="card experience-card reveal">
+
+                    <div class="experience-heading">
+
+                        <div>
+
+                            <h3>
+                                Software Engineer I
+                            </h3>
+
+                            <p class="company">
+                                Dell Technologies
+                            </p>
+
+                        </div>
+
+
+                        <div class="experience-date">
+
+                            <strong>
+                                August 2022 – July 2024
+                            </strong>
+
+                            Bengaluru, India
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="experience-stats">
+
+                        <div class="stat">
+
+                            <strong>
+                                5
+                            </strong>
+
+                            <span>
+                                Component areas supported
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat">
+
+                            <strong>
+                                50+
+                            </strong>
+
+                            <span>
+                                Jira issues resolved
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat">
+
+                            <strong>
+                                100+
+                            </strong>
+
+                            <span>
+                                Technical investigations
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat">
+
+                            <strong>
+                                50+ / 10
+                            </strong>
+
+                            <span>
+                                Virtual machines / physical servers
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <ul class="clean-list">
+
+                        <li>
+                            Worked with the Dell Update Package and USBNIC
+                            teams across iDRAC, USBNIC, PSU, CPLD, and device
+                            driver components.
+                        </li>
+
+                        <li>
+                            Supported Windows, WinPE, and Linux environments
+                            through debugging, testing, issue analysis, and
+                            validation.
+                        </li>
+
+                        <li>
+                            Resolved more than 50 Jira issues and contributed
+                            to over 100 technical investigations involving log
+                            review, source-code debugging, issue escalation,
+                            testing, and fix validation.
+                        </li>
+
+                        <li>
+                            Contributed to the Dell Update Package
+                            Modernization initiative through development,
+                            testing, and validation activities.
+                        </li>
+
+                        <li>
+                            Collaborated with a U.S.-based engineering team on
+                            the OSM module to analyze issues, validate
+                            functionality, and coordinate technical
+                            requirements.
+                        </li>
+
+                        <li>
+                            Set up and supported more than 50 virtual machines
+                            and 10 physical servers for development, testing,
+                            operating-system, and platform requirements.
+                        </li>
+
+                    </ul>
+
+
+                    <div class="tag-list">
+
+                        <span class="tag accent">
+                            Software Engineering
+                        </span>
+
+                        <span class="tag">
+                            C++
+                        </span>
+
+                        <span class="tag">
+                            Linux
+                        </span>
+
+                        <span class="tag">
+                            Windows
+                        </span>
+
+                        <span class="tag">
+                            Debugging
+                        </span>
+
+                        <span class="tag">
+                            Testing
+                        </span>
+
+                        <span class="tag">
+                            Validation
+                        </span>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             TECHNICAL SKILLS
+             ===================================================== -->
+
+        <section
+            class="section-alt"
+            id="skills"
+            aria-labelledby="skills-title"
+        >
+
+            <div class="container">
+
+                <div class="section-header reveal">
+
+                    <p class="eyebrow">
+                        Technical Skills
+                    </p>
+
+                    <h2
+                        class="section-title"
+                        id="skills-title"
+                    >
+                        Tools I use for analysis,
+                        development, and research.
+                    </h2>
+
+                    <p class="section-intro">
+                        My technical background covers programming, data
+                        analysis, visualization, healthcare data, cloud and
+                        development tools, and multiple computing environments.
+                    </p>
+
+                </div>
+
+
+
+                <div class="skills-grid">
+
+
+                    <article class="card skill-card reveal">
+
+                        <span class="skill-category">
+                            Programming
+                        </span>
+
+                        <h3>
+                            Languages & Database
+                        </h3>
+
+                        <p class="skill-text">
+                            Python · R · C++ · SQL Server
+                        </p>
+
+                    </article>
+
+
+                    <article class="card skill-card reveal">
+
+                        <span class="skill-category">
+                            Data Science
+                        </span>
+
+                        <h3>
+                            Scientific Libraries
+                        </h3>
+
+                        <p class="skill-text">
+                            NumPy · Pandas · Scikit-learn · SciPy
+                        </p>
+
+                    </article>
+
+
+                    <article class="card skill-card reveal">
+
+                        <span class="skill-category">
+                            Visualization
+                        </span>
+
+                        <h3>
+                            Data Visualization
+                        </h3>
+
+                        <p class="skill-text">
+                            Matplotlib · Seaborn · Plotly
+                        </p>
+
+                    </article>
+
+
+                    <article class="card skill-card reveal">
+
+                        <span class="skill-category">
+                            Healthcare
+                        </span>
+
+                        <h3>
+                            Healthcare & Signals
+                        </h3>
+
+                        <p class="skill-text">
+                            Health Data Analysis · IMU Signals
+                        </p>
+
+                    </article>
+
+
+                    <article class="card skill-card reveal">
+
+                        <span class="skill-category">
+                            Development
+                        </span>
+
+                        <h3>
+                            Cloud & Development Tools
+                        </h3>
+
+                        <p class="skill-text">
+                            Google Cloud · Docker · Git · GitHub
+                        </p>
+
+                    </article>
+
+
+                    <article class="card skill-card reveal">
+
+                        <span class="skill-category">
+                            Environments
+                        </span>
+
+                        <h3>
+                            Computing Environments
+                        </h3>
+
+                        <p class="skill-text">
+                            JupyterLab · Kaggle Notebook · Google Colab ·
+                            VS Code · Linux · Windows
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             PROJECTS
+             ===================================================== -->
+
+        <section
+            id="projects"
+            aria-labelledby="projects-title"
+        >
+
+            <div class="container">
+
+                <div class="section-header reveal">
+
+                    <p class="eyebrow">
+                        Technical Projects
+                    </p>
+
+                    <h2
+                        class="section-title"
+                        id="projects-title"
+                    >
+                        Projects built from data
+                        preparation through deployment.
+                    </h2>
+
+                    <p class="section-intro">
+                        These projects reflect my interest in building complete
+                        workflows rather than stopping at model training.
+                    </p>
+
+                </div>
+
+
+
+                <div class="projects-grid">
+
+
+                    <!-- =========================================
+                         TWEET SENTIMENT
+                         ========================================= -->
+
+                    <article class="card project-card reveal">
+
+                        <p class="project-type">
+                            Natural Language Processing · January 2026
+                        </p>
+
+
+                        <h3>
+                            Tweet Sentiment Analysis Web Application
+                        </h3>
+
+
+                        <p class="project-summary">
+                            An end-to-end sentiment classification application
+                            for classifying user-entered tweets as positive or
+                            negative.
+                        </p>
+
+
+                        <div class="project-metrics">
+
+                            <div class="project-metric">
+
+                                <strong>
+                                    6
+                                </strong>
+
+                                <span>
+                                    Classification pipelines
+                                </span>
+
+                            </div>
+
+
+                            <div class="project-metric">
+
+                                <strong>
+                                    3
+                                </strong>
+
+                                <span>
+                                    Model families
+                                </span>
+
+                            </div>
+
+
+                            <div class="project-metric">
+
+                                <strong>
+                                    2
+                                </strong>
+
+                                <span>
+                                    Text representations
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <ul class="clean-list">
+
+                            <li>
+                                Built and evaluated Logistic Regression,
+                                Naive Bayes, and Support Vector Classifier
+                                pipelines.
+                            </li>
+
+                            <li>
+                                Compared Count Vectorization and TF-IDF
+                                representations.
+                            </li>
+
+                            <li>
+                                Implemented text preprocessing, exploratory
+                                analysis, feature extraction, training,
+                                testing, and prediction workflows.
+                            </li>
+
+                            <li>
+                                Integrated trained models into a Streamlit
+                                interface using Joblib.
+                            </li>
+
+                        </ul>
+
+
+                        <div class="tag-list">
+
+                            <span class="tag accent">
+                                Python
+                            </span>
+
+                            <span class="tag">
+                                Streamlit
+                            </span>
+
+                            <span class="tag">
+                                Scikit-learn
+                            </span>
+
+                            <span class="tag">
+                                NLTK
+                            </span>
+
+                            <span class="tag">
+                                TF-IDF
+                            </span>
+
+                        </div>
+
+
+                        <div class="project-actions">
+
+                            <a
+                                class="button button-secondary"
+                                href="https://github.com/Samarth-Kumar-Samal-Sam/Tweet-Sentimental-Analysis"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                GitHub Repository
+                                <span aria-hidden="true">↗</span>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- =========================================
+                         COVID PROJECT
+                         ========================================= -->
+
+                    <article class="card project-card reveal">
+
+                        <p class="project-type">
+                            Time-Series Forecasting · August 2025
+                        </p>
+
+
+                        <h3>
+                            COVID-19 Forecasting Web Application
+                        </h3>
+
+
+                        <p class="project-summary">
+                            An interactive analytics and forecasting
+                            application for exploring country-level COVID-19
+                            trends and future projections.
+                        </p>
+
+
+                        <div class="project-metrics">
+
+                            <div class="project-metric">
+
+                                <strong>
+                                    161,568
+                                </strong>
+
+                                <span>
+                                    Records processed
+                                </span>
+
+                            </div>
+
+
+                            <div class="project-metric">
+
+                                <strong>
+                                    198
+                                </strong>
+
+                                <span>
+                                    Countries
+                                </span>
+
+                            </div>
+
+
+                            <div class="project-metric">
+
+                                <strong>
+                                    816
+                                </strong>
+
+                                <span>
+                                    Reporting dates
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <ul class="clean-list">
+
+                            <li>
+                                Developed workflows for data cleaning,
+                                confirmed cases, recoveries, deaths, country
+                                filtering, and date-range selection.
+                            </li>
+
+                            <li>
+                                Implemented country-level forecasts for
+                                one-to-five-year horizons using Prophet.
+                            </li>
+
+                            <li>
+                                Used weekly and yearly seasonality with
+                                95 percent prediction intervals.
+                            </li>
+
+                            <li>
+                                Built interactive maps, comparisons, KPI
+                                dashboards, trends, rankings, and downloadable
+                                reports.
+                            </li>
+
+                        </ul>
+
+
+                        <div class="tag-list">
+
+                            <span class="tag accent">
+                                Python
+                            </span>
+
+                            <span class="tag">
+                                Prophet
+                            </span>
+
+                            <span class="tag">
+                                Plotly
+                            </span>
+
+                            <span class="tag">
+                                Matplotlib
+                            </span>
+
+                            <span class="tag">
+                                Streamlit
+                            </span>
+
+                        </div>
+
+
+                        <div class="project-actions">
+
+                            <a
+                                class="button button-primary"
+                                href="https://sam-covid-19-prediction.streamlit.app/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Live Application
+                                <span aria-hidden="true">↗</span>
+                            </a>
+
+
+                            <a
+                                class="button button-secondary"
+                                href="https://github.com/Samarth-Kumar-Samal-Sam/Covid-19-Prediction"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                GitHub Repository
+                                <span aria-hidden="true">↗</span>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             CONTACT
+             ===================================================== -->
+
+        <section
+            class="section-alt"
+            id="contact"
+            aria-labelledby="contact-title"
+        >
+
+            <div class="container">
+
+                <div class="card contact-card reveal">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            Contact
+                        </p>
+
+
+                        <h2 id="contact-title">
+                            Let’s connect.
+                        </h2>
+
+
+                        <p>
+                            I am always interested in conversations around
+                            data science, healthcare analytics, research,
+                            machine learning, and software engineering.
+                            The best way to reach me is by email or LinkedIn.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="contact-actions">
+
+                        <a
+                            class="button button-primary"
+                            href="mailto:samal026@umn.edu"
+                        >
+                            Email Me
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+
+                        <a
+                            class="button button-secondary"
+                            href="https://www.linkedin.com/in/samarth-kumar-samal/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            LinkedIn
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+
+                        <a
+                            class="button button-secondary"
+                            href="https://github.com/Samarth-Kumar-Samal-Sam"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            GitHub
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
+    <footer>
+
+        <div class="container footer-inner">
+
+            <p>
+                © <span id="currentYear"></span>
+                Samarth Kumar Samal
+            </p>
+
+
+            <div class="footer-links">
+
+                <a
+                    href="mailto:samal026@umn.edu"
+                >
+                    Email
+                </a>
+
+
+                <a
+                    href="https://www.linkedin.com/in/samarth-kumar-samal/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    LinkedIn
+                </a>
+
+
+                <a
+                    href="https://github.com/Samarth-Kumar-Samal-Sam"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    GitHub
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =========================================================
+         SCROLL TO TOP
+         ========================================================= -->
+
+    <button
+        class="scroll-top"
+        id="scrollTop"
+        type="button"
+        aria-label="Scroll to top"
+    >
+        ↑
+    </button>
+
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+         ========================================================= -->
+
+    <script>
+
+        /* =========================================================
+           1. ELEMENTS
+           ========================================================= */
+
+        const html =
+            document.documentElement;
+
+        const siteHeader =
+            document.getElementById("siteHeader");
+
+        const themeToggle =
+            document.getElementById("themeToggle");
+
+        const menuToggle =
+            document.getElementById("menuToggle");
+
+        const menuIcon =
+            document.getElementById("menuIcon");
+
+        const navMenu =
+            document.getElementById("navMenu");
+
+        const navLinks =
+            document.querySelectorAll(".nav-link");
+
+        const scrollTopButton =
+            document.getElementById("scrollTop");
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        const sections =
+            document.querySelectorAll(
+                "main section[id]"
+            );
+
+
+        /* =========================================================
+           2. CURRENT YEAR
+           ========================================================= */
+
+        document.getElementById(
+            "currentYear"
+        ).textContent =
+            new Date().getFullYear();
+
+
+        /* =========================================================
+           3. THEME
+           ========================================================= */
+
+        const savedTheme =
+            localStorage.getItem("portfolio-theme");
+
+        if (savedTheme === "light" ||
+            savedTheme === "dark") {
+
+            html.setAttribute(
+                "data-theme",
+                savedTheme
+            );
+        }
+
+
+        themeToggle.addEventListener(
+            "click",
+            () => {
+
+                const currentTheme =
+                    html.getAttribute("data-theme");
+
+                const newTheme =
+                    currentTheme === "dark"
+                        ? "light"
+                        : "dark";
+
+                html.setAttribute(
+                    "data-theme",
+                    newTheme
+                );
+
+                localStorage.setItem(
+                    "portfolio-theme",
+                    newTheme
+                );
+            }
+        );
+
+
+        /* =========================================================
+           4. MOBILE MENU
+           ========================================================= */
+
+        function closeMenu() {
+
+            navMenu.classList.remove("open");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            menuIcon.textContent = "☰";
+        }
+
+
+        menuToggle.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    navMenu.classList.toggle("open");
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+
+                menuIcon.textContent =
+                    isOpen
+                        ? "×"
+                        : "☰";
+            }
+        );
+
+
+        navLinks.forEach(
+            link => {
+
+                link.addEventListener(
+                    "click",
+                    closeMenu
+                );
+            }
+        );
+
+
+        document.addEventListener(
+            "click",
+            event => {
+
+                const clickedInsideMenu =
+                    navMenu.contains(
+                        event.target
+                    );
+
+                const clickedToggle =
+                    menuToggle.contains(
+                        event.target
+                    );
+
+                if (
+                    navMenu.classList.contains("open") &&
+                    !clickedInsideMenu &&
+                    !clickedToggle
+                ) {
+                    closeMenu();
+                }
+            }
+        );
+
+
+        /* =========================================================
+           5. HEADER AND SCROLL BUTTON
+           ========================================================= */
+
+        function handleScroll() {
+
+            const scrollY =
+                window.scrollY;
+
+            siteHeader.classList.toggle(
+                "scrolled",
+                scrollY > 20
+            );
+
+            scrollTopButton.classList.toggle(
+                "visible",
+                scrollY > 500
+            );
+        }
+
+
+        window.addEventListener(
+            "scroll",
+            handleScroll,
+            {
+                passive: true
+            }
+        );
+
+        handleScroll();
+
+
+        scrollTopButton.addEventListener(
+            "click",
+            () => {
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        );
+
+
+        /* =========================================================
+           6. REVEAL ON SCROLL
+           ========================================================= */
+
+        if (
+            "IntersectionObserver" in window
+        ) {
+
+            const revealObserver =
+                new IntersectionObserver(
+                    entries => {
+
+                        entries.forEach(
+                            entry => {
+
+                                if (
+                                    entry.isIntersecting
+                                ) {
+
+                                    entry.target
+                                        .classList
+                                        .add("visible");
+
+                                    revealObserver
+                                        .unobserve(
+                                            entry.target
+                                        );
+                                }
+                            }
+                        );
+                    },
+                    {
+                        threshold: 0.12
+                    }
+                );
+
+
+            revealElements.forEach(
+                element => {
+
+                    revealObserver.observe(
+                        element
+                    );
+                }
+            );
+
+        } else {
+
+            revealElements.forEach(
+                element => {
+
+                    element
+                        .classList
+                        .add("visible");
+                }
+            );
+        }
+
+
+        /* =========================================================
+           7. ACTIVE NAVIGATION
+           ========================================================= */
+
+        const sectionObserver =
+            new IntersectionObserver(
+                entries => {
+
+                    entries.forEach(
+                        entry => {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                const sectionId =
+                                    entry.target.id;
+
+                                navLinks.forEach(
+                                    link => {
+
+                                        const linkTarget =
+                                            link
+                                                .getAttribute(
+                                                    "href"
+                                                )
+                                                .replace(
+                                                    "#",
+                                                    ""
+                                                );
+
+                                        link
+                                            .classList
+                                            .toggle(
+                                                "active",
+                                                linkTarget ===
+                                                sectionId
+                                            );
+                                    }
+                                );
+                            }
+                        }
+                    );
+                },
+                {
+                    rootMargin:
+                        "-35% 0px -55% 0px"
+                }
+            );
+
+
+        sections.forEach(
+            section => {
+
+                sectionObserver.observe(
+                    section
+                );
+            }
+        );
+
+
+        /* =========================================================
+           8. CLOSE MOBILE MENU AFTER RESIZE
+           ========================================================= */
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                if (
+                    window.innerWidth > 940
+                ) {
+                    closeMenu();
+                }
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

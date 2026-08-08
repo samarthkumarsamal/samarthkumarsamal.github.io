@@ -3,7 +3,7 @@
 A modern, responsive, and interactive personal portfolio showcasing my academic background, research experience, professional software engineering experience, technical skills, and selected data science and machine learning projects.
 
 🌐 **Live Portfolio:**
-https://samarth-kumar-samal-sam.github.io/
+https://samarthkumarsamal.github.io/
 
 ---
 
@@ -328,7 +328,7 @@ The portfolio is deployed using **GitHub Pages**.
 
 The live website is available at:
 
-https://samarth-kumar-samal-sam.github.io/
+https://samarthkumarsamal.github.io/
 
 Updates pushed to the deployment branch can be reflected on the published portfolio through GitHub Pages.
 
@@ -389,10 +389,10 @@ I welcome opportunities to connect regarding research, internships, data science
 [linkedin.com/in/samarth-kumar-samal](https://www.linkedin.com/in/samarth-kumar-samal/)
 
 **GitHub:**
-[github.com/Samarth-Kumar-Samal-Sam](https://github.com/Samarth-Kumar-Samal-Sam)
+[github.com/Samarth-Kumar-Samal-Sam](https://github.com/samarthkumarsamal)
 
 **Portfolio:**
-[samarth-kumar-samal-sam.github.io](https://samarth-kumar-samal-sam.github.io/)
+[samarth-kumar-samal-sam.github.io](https://samarthkumarsamal.github.io/)
 
 ---
 

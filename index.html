@@ -203,9 +203,17 @@ p {color:var(--ink-soft)}
 .trace:nth-child(2) path {animation-delay:.7s}
 .trace:nth-child(3) path {animation-delay:1.5s}
 @keyframes drawLine {to {stroke-dashoffset:0}}
-.cluster-art {display:grid;place-items:center;height:100%;padding:55px 25px 45px}
-.cluster-art svg {width:100%;max-width:360px;overflow:visible;filter:drop-shadow(0 0 14px rgba(var(--aqua-rgb),.15));animation:clusterDrift 11s ease-in-out infinite alternate}
-@keyframes clusterDrift {to {transform:translateY(-9px) rotate(2deg)}}
+/* ICU clustering: every dot starts in a dispersed position, then travels to one of
+   three illustrative groups. Movement is drawn with requestAnimationFrame below. */
+.cluster-art {display:grid;place-items:center;height:100%;padding:54px 18px 64px;min-width:0}
+.cluster-svg {width:100%;height:100%;max-width:420px;min-height:205px;overflow:visible;filter:drop-shadow(0 0 18px rgba(var(--aqua-rgb),.12))}
+.cluster-svg .scatter-guide {stroke:var(--line-strong);stroke-width:1;stroke-dasharray:3 10;fill:none}
+.cluster-svg .cluster-halo {fill-opacity:.045;stroke-width:1.3;stroke-dasharray:4 7}
+.cluster-svg .cluster-point {stroke:var(--bg);stroke-width:.8;transition:none}
+.cluster-svg .cluster-label {font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.13em;paint-order:stroke;stroke:var(--bg);stroke-width:2px}
+.cluster-status {position:absolute;bottom:46px;left:27px;right:23px;display:flex;align-items:center;gap:10px;color:var(--ink-soft);font:600 10px 'Space Grotesk',sans-serif;letter-spacing:.04em}
+.cluster-status .cluster-progress {height:3px;flex:1;border-radius:10px;overflow:hidden;background:var(--line-strong)}
+.cluster-status .cluster-progress>span {display:block;height:100%;width:0;background:linear-gradient(90deg,var(--aqua),var(--lavender),var(--sun));border-radius:10px}
 /* Projects */
 .projects-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
 .project-card {display:flex;flex-direction:column;overflow:hidden;border-radius:24px;transition:border-color .35s,transform .35s var(--ease)}
@@ -213,6 +221,61 @@ p {color:var(--ink-soft)}
 .project-art::before {content:"";position:absolute;inset:0;background:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:30px 30px;mask-image:linear-gradient(transparent,black)}
 .project-art .project-no {position:absolute;left:25px;top:20px;font:600 10px 'Space Grotesk',sans-serif;color:var(--muted);letter-spacing:.18em}
 .project-art svg {max-width:86%;width:380px;height:150px;overflow:visible;z-index:1}
+/* Animated clinical NLP pipeline */
+.project-art.animated-panel {height:232px;isolation:isolate}
+.nlp-art {background:radial-gradient(ellipse at 41% 59%,rgba(180,172,250,.13),transparent 66%),linear-gradient(125deg,rgba(var(--aqua-rgb),.055),rgba(180,172,250,.045))}
+.nlp-scene {position:relative;z-index:1;width:min(490px,calc(100% - 42px));margin:22px auto 0;display:grid;grid-template-columns:1.08fr .34fr 1.14fr .34fr 1fr;align-items:center;gap:4px}
+.nlp-doc,.nlp-engine,.nlp-output {position:relative;border:1px solid var(--line-strong);border-radius:12px;background:color-mix(in srgb,var(--panel) 85%,transparent);box-shadow:0 10px 32px rgba(0,0,0,.085)}
+.nlp-doc {height:112px;padding:12px 10px 8px;overflow:hidden}
+.nlp-doc-icon {width:15px;height:16px;border:1px solid var(--aqua);border-radius:3px;position:relative;margin-bottom:8px}
+.nlp-doc-icon::after {content:'';position:absolute;right:2px;top:4px;width:6px;border-top:1px solid var(--aqua);transform:rotate(45deg)}
+.nlp-lines {display:grid;gap:6px}
+.nlp-lines i {height:3px;background:var(--line-strong);border-radius:9px;display:block}
+.nlp-lines i:nth-child(2) {width:76%}.nlp-lines i:nth-child(3){width:88%}.nlp-lines i:nth-child(4){width:60%}
+.nlp-scan {position:absolute;left:0;right:0;height:19px;top:18px;background:linear-gradient(transparent,rgba(var(--aqua-rgb),.20),rgba(var(--aqua-rgb),.02));border-bottom:1px solid rgba(var(--aqua-rgb),.6);animation:scanDoc 6s ease-in-out infinite}
+.nlp-doc strong {position:absolute;bottom:7px;left:10px;right:3px;font:600 10px 'DM Sans',sans-serif;color:var(--ink-soft)}
+.nlp-flow {height:2px;background:var(--line-strong);position:relative;isolation:isolate}
+.nlp-flow::after {content:'';position:absolute;right:0;top:-3px;border-left:5px solid var(--lavender);border-top:4px solid transparent;border-bottom:4px solid transparent}
+.nlp-flow i {position:absolute;left:0;top:-3px;width:7px;height:7px;background:var(--aqua);border-radius:50%;box-shadow:0 0 12px var(--aqua);animation:flowPacket 3s linear infinite}
+.nlp-flow.flow-out i {animation-delay:1.5s;background:var(--lavender);box-shadow:0 0 12px var(--lavender)}
+.nlp-engine {height:108px;display:grid;place-content:center;text-align:center;padding:8px 4px;overflow:hidden}
+.nlp-engine::before {content:'';position:absolute;inset:-50%;border-radius:50%;background:conic-gradient(transparent 0 60%,rgba(var(--aqua-rgb),.12) 75%,transparent 90%);animation:engineRotate 6s linear infinite}
+.nlp-engine>* {position:relative;z-index:1}
+.nlp-engine .engine-icon {display:grid;place-items:center;width:30px;height:30px;border-radius:11px;border:1px solid rgba(var(--aqua-rgb),.4);color:var(--aqua);background:var(--panel);font:700 14px 'Space Grotesk',sans-serif;margin:auto auto 7px}
+.nlp-engine strong {display:block;color:var(--ink);font:700 clamp(9px,1.15vw,12px) 'Space Grotesk',sans-serif}
+.nlp-engine small {font:500 9px/1.3 'DM Sans',sans-serif;color:var(--muted);margin-top:5px}
+.nlp-outputs {display:grid;gap:9px}
+.nlp-output {min-height:48px;display:flex;flex-direction:column;justify-content:center;padding:6px 10px;animation:resultGlow 6s ease-in-out infinite}
+.nlp-output:last-child {animation-delay:.35s}
+.nlp-output b {color:var(--aqua);font:700 13px 'Space Grotesk',sans-serif}
+.nlp-output:last-child b {color:var(--lavender)}
+.nlp-output small {color:var(--muted);font:500 9px 'DM Sans',sans-serif}
+.scene-footnote {position:absolute;left:25px;right:15px;bottom:12px;font:500 10px/1.3 'DM Sans',sans-serif;color:var(--muted);z-index:1}
+@keyframes scanDoc {0%,9%{transform:translateY(-25px);opacity:0}14%{opacity:1}56%{transform:translateY(74px);opacity:1}66%,100%{transform:translateY(74px);opacity:0}}
+@keyframes flowPacket {0%{left:0;opacity:0}12%{opacity:1}72%{opacity:1}100%{left:calc(100% - 4px);opacity:0}}
+@keyframes engineRotate {to{transform:rotate(360deg)}}
+@keyframes resultGlow {0%,46%,100%{border-color:var(--line-strong);box-shadow:none}55%,75%{border-color:rgba(var(--aqua-rgb),.5);box-shadow:0 0 19px rgba(var(--aqua-rgb),.10)}}
+/* Illustrative animated epidemiological waves and forecast band */
+.covid-art {background:radial-gradient(ellipse at 75% 70%,rgba(180,172,250,.12),transparent 70%),linear-gradient(130deg,rgba(var(--aqua-rgb),.075),rgba(180,172,250,.04))}
+.covid-art svg {max-width:94%;width:510px;height:178px;margin-top:15px}
+.covid-grid {stroke:var(--line-strong);stroke-width:.85;stroke-dasharray:2 7}
+.covid-line {fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1000;stroke-dashoffset:1000;animation:plotTrace 8s var(--ease) infinite}
+.covid-line.primary {stroke:var(--aqua);stroke-width:3.1}
+.covid-line.secondary {stroke:var(--sun);stroke-width:1.7;opacity:.55;animation-delay:.5s}
+.covid-line.forecast {stroke:var(--lavender);stroke-width:2.7;animation-delay:1.15s}
+.covid-band {fill:rgba(180,172,250,.10);stroke:rgba(180,172,250,.36);stroke-width:.8;animation:bandBreathe 5s ease-in-out infinite}
+.covid-waves {animation:waveFloat 5.5s ease-in-out infinite}
+.covid-tracker {fill:var(--aqua);stroke:var(--bg);stroke-width:2.5;filter:drop-shadow(0 0 8px var(--aqua))}
+.covid-chart-label {font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.11em;fill:var(--muted)}
+.covid-divider {stroke:var(--lavender);stroke-width:1;stroke-dasharray:4 6;opacity:.7}
+.covid-art::after {content:'';position:absolute;z-index:1;top:43px;bottom:30px;width:16%;left:0;background:linear-gradient(90deg,transparent,rgba(var(--aqua-rgb),.05),transparent);animation:chartSweep 7.5s linear infinite;pointer-events:none}
+@keyframes plotTrace {0%,8%{stroke-dashoffset:1000;opacity:.15}45%,80%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-45;opacity:.8}}
+@keyframes bandBreathe {0%,100%{opacity:.32}50%{opacity:1}}
+@keyframes waveFloat {0%,100%{transform:translateY(1.5px)}50%{transform:translateY(-3px)}}
+@keyframes chartSweep {0%{transform:translateX(-100%);opacity:0}14%{opacity:1}80%,100%{transform:translateX(670%);opacity:0}}
+/* Do not animate offscreen visuals. CSS animations resume when their cards return. */
+.animated-panel:not(.is-playing) *, .animated-panel:not(.is-playing) *::before, .animated-panel:not(.is-playing) *::after {animation-play-state:paused !important}
+
 .project-body {padding:30px;display:flex;flex:1;flex-direction:column}
 .project-type {font:600 10px 'Space Grotesk',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--aqua);margin:0 0 15px}
 .project-body h3 {font-size:26px;margin:0 0 15px}
@@ -256,7 +319,7 @@ p {color:var(--ink-soft)}
 .edu-card .edu-foot {font-size:12px;font-weight:700;color:var(--muted);margin-top:22px}
 /* Contact */
 .contact {padding:120px 0 90px;overflow:hidden}
-.contact::before {content:"";position:absolute;left:50%;top:5%;transform:translateX(-50%);width:820px;height:500px;max-width:150vw;background:radial-gradient(ellipse,rgba(var(--aqua-rgb),.13),transparent 65%);z-index:-1;pointer-events:none}
+.contact::before {content:"";position:absolute;left:50%;top:5%;transform:translateX(-50%);width:820px;height:500px;max-width:100%;background:radial-gradient(ellipse,rgba(var(--aqua-rgb),.13),transparent 65%);z-index:-1;pointer-events:none}
 .contact-inner {text-align:center;max-width:830px;margin:auto}
 .contact h2 {font-size:clamp(45px,7.6vw,94px);line-height:1.05;margin:0 0 26px;letter-spacing:-.075em}
 .contact p {max-width:540px;font-size:16px;margin:0 auto 28px}
@@ -309,11 +372,23 @@ footer {border-top:1px solid var(--line);padding:28px 0 33px}
   .skills-grid {grid-template-columns:1fr}.project-body {padding:24px}.project-body h3 {font-size:24px}
   .job-highlights {grid-template-columns:1fr 1fr}.footer-inner {align-items:flex-start;flex-direction:column}
 }
+@media(max-width:700px) {
+  .nlp-scene {width:calc(100% - 30px);gap:3px;margin-top:22px}
+  .nlp-doc {padding:10px 7px 8px}.nlp-doc strong {font-size:9px;left:7px}
+  .nlp-engine strong {font-size:10px}.nlp-engine small {font-size:8px}
+  .nlp-output {padding:5px 6px}.nlp-output b {font-size:11px}.nlp-output small {font-size:8px}
+  .scene-footnote {font-size:9px;left:16px}
+  .cluster-art {padding:59px 16px 66px}.cluster-svg {min-height:190px}
+  .cluster-status {left:18px;right:18px;bottom:47px}
+}
 @media(prefers-reduced-motion:reduce) {
   html {scroll-behavior:auto}
   *,*::before,*::after {animation:none !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
   .js .reveal {opacity:1;transform:none}
   .trace path {stroke-dashoffset:0}
+  .covid-line {stroke-dashoffset:0 !important;opacity:1 !important}
+  .covid-band {opacity:1 !important}
+  .nlp-scan {top:49px;opacity:.45;transform:none}
 }
 </style>
 </head>
@@ -442,14 +517,23 @@ footer {border-top:1px solid var(--line);padding:28px 0 33px}
           </div>
           <div class="research-art" aria-label="Conceptual clustered points illustration, not study results">
             <span class="art-head">Patient groups / concept</span>
-            <div class="cluster-art" aria-hidden="true"><svg viewBox="0 0 360 300" fill="none">
-              <circle cx="180" cy="150" r="123" stroke="rgba(148,179,200,.16)" stroke-dasharray="2 9"/><circle cx="180" cy="150" r="80" stroke="rgba(148,179,200,.13)"/>
-              <g fill="var(--aqua)"><circle cx="79" cy="83" r="7"/><circle cx="104" cy="105" r="6"/><circle cx="129" cy="66" r="5"/><circle cx="110" cy="65" r="4"/><circle cx="60" cy="117" r="5"/><circle cx="96" cy="136" r="6"/><circle cx="145" cy="110" r="4"/></g>
-              <g fill="var(--lavender)"><circle cx="255" cy="73" r="7"/><circle cx="272" cy="104" r="5"/><circle cx="296" cy="91" r="6"/><circle cx="235" cy="123" r="5"/><circle cx="299" cy="143" r="4"/><circle cx="246" cy="92" r="4"/><circle cx="319" cy="121" r="5"/></g>
-              <g fill="var(--sun)"><circle cx="139" cy="220" r="7"/><circle cx="174" cy="236" r="5"/><circle cx="202" cy="213" r="6"/><circle cx="120" cy="248" r="5"/><circle cx="185" cy="266" r="4"/><circle cx="158" cy="185" r="5"/><circle cx="222" cy="242" r="5"/></g>
-              <g stroke="rgba(148,179,200,.16)" stroke-dasharray="3 7"><path d="M79 83 104 105 129 66 110 65 60 117 96 136 145 110"/><path d="M255 73 272 104 296 91 235 123 299 143 246 92 319 121"/><path d="M139 220 174 236 202 213 120 248 185 266 158 185 222 242"/></g>
-            </svg></div>
-            <span class="art-foot">Illustrative clusters; no patient data or study outcomes shown.</span>
+            <div class="cluster-art" aria-hidden="true">
+              <svg class="cluster-svg" id="clusterVisualization" viewBox="0 0 360 290" role="presentation">
+                <circle class="scatter-guide" cx="180" cy="145" r="122"/>
+                <circle class="scatter-guide" cx="180" cy="145" r="82" opacity=".5"/>
+                <g id="clusterHalos">
+                  <circle class="cluster-halo" cx="101" cy="86" r="48" fill="var(--aqua)" stroke="var(--aqua)" opacity="0"/>
+                  <circle class="cluster-halo" cx="270" cy="102" r="48" fill="var(--lavender)" stroke="var(--lavender)" opacity="0"/>
+                  <circle class="cluster-halo" cx="179" cy="218" r="48" fill="var(--sun)" stroke="var(--sun)" opacity="0"/>
+                  <text class="cluster-label" x="90" y="29" fill="var(--aqua)" opacity="0">01</text>
+                  <text class="cluster-label" x="264" y="40" fill="var(--lavender)" opacity="0">02</text>
+                  <text class="cluster-label" x="171" y="282" fill="var(--sun)" opacity="0">03</text>
+                </g>
+                <g id="clusterDots"></g>
+              </svg>
+            </div>
+            <div class="cluster-status" aria-live="off"><span id="clusterStage">Scattered observations</span><span class="cluster-progress"><span id="clusterProgress"></span></span></div>
+            <span class="art-foot">Concept illustration only — not patient data or final study findings.</span>
           </div>
         </article>
       </div>
@@ -461,11 +545,17 @@ footer {border-top:1px solid var(--line);padding:28px 0 33px}
       <div class="section-heading reveal"><div class="kicker">03 / Selected projects</div><h2 id="projectsTitle">Work I can <span class="serif accent-text">show.</span></h2><p>Two projects with different aims: predicting medical codes from notes and exploring public-health trends through a deployed application.</p></div>
       <div class="projects-grid">
         <article class="project-card glass spotlight reveal">
-          <div class="project-art"><span class="project-no">PROJECT / 001 — CLINICAL NLP</span><svg viewBox="0 0 400 150" fill="none" aria-hidden="true">
-            <g stroke="var(--line-strong)" stroke-width="1"><rect x="15" y="36" width="95" height="79" rx="10"/><rect x="152" y="22" width="101" height="109" rx="10"/><rect x="296" y="36" width="91" height="79" rx="10"/></g>
-            <g stroke="var(--aqua)" stroke-width="2" stroke-linecap="round"><path d="M34 55h57M34 68h43M34 81h50"/><path d="M177 44h52M177 58h45M177 72h52M177 86h33"/><path d="M316 61h50M316 76h35M316 91h42"/></g>
-            <path d="M110 73h34m-7-6 7 6-7 6M253 73h35m-7-6 7 6-7 6" stroke="var(--lavender)" stroke-width="2" stroke-linecap="round"/><circle cx="200" cy="119" r="4" fill="var(--sun)"/>
-          </svg></div>
+          <div class="project-art animated-panel nlp-art" role="img" aria-label="Animated concept: clinical notes are scanned, analyzed with a clinical NLP model, and produce joint ICD-10 diagnosis and CPT procedure predictions.">
+            <span class="project-no">PROJECT / 001 — CLINICAL NLP</span>
+            <div class="nlp-scene" aria-hidden="true">
+              <div class="nlp-doc"><div class="nlp-doc-icon"></div><div class="nlp-lines"><i></i><i></i><i></i><i></i></div><div class="nlp-scan"></div><strong>Clinical notes</strong></div>
+              <div class="nlp-flow flow-in"><i></i></div>
+              <div class="nlp-engine"><div class="engine-icon">✧</div><strong>Clinical NLP</strong><small>Context + time</small></div>
+              <div class="nlp-flow flow-out"><i></i></div>
+              <div class="nlp-outputs"><div class="nlp-output"><b>ICD-10</b><small>Diagnosis</small></div><div class="nlp-output"><b>CPT</b><small>Procedure</small></div></div>
+            </div>
+            <span class="scene-footnote">Document analysis → ICD + CPT joint prediction · Conceptual workflow</span>
+          </div>
           <div class="project-body">
             <div class="project-type">May 2026 · Clinical NLP / deep learning</div>
             <h3>Temporal Clinical Reasoning for Medical Coding</h3>
@@ -477,12 +567,25 @@ footer {border-top:1px solid var(--line);padding:28px 0 33px}
           </div>
         </article>
         <article class="project-card glass spotlight reveal delay-1">
-          <div class="project-art"><span class="project-no">PROJECT / 002 — FORECASTING</span><svg viewBox="0 0 400 150" fill="none" aria-hidden="true">
-            <g stroke="var(--line-strong)" stroke-width="1"><path d="M25 25v100h350"/><path d="M25 48h350M25 73h350M25 98h350" stroke-dasharray="3 6"/></g>
-            <path d="M27 111C57 98 69 109 91 89S127 92 153 70S184 77 213 50S252 68 270 40S310 59 341 19L375 30" stroke="var(--aqua)" stroke-width="3" stroke-linecap="round"/>
-            <path d="M213 50Q266 16 300 28T375 8L375 65Q328 74 293 59T213 50Z" fill="rgba(180,172,250,.14)" stroke="var(--lavender)" stroke-width="1" stroke-dasharray="5 4"/>
-            <circle cx="213" cy="50" r="5" fill="var(--sun)"/><circle cx="341" cy="19" r="4" fill="var(--aqua)"/>
-          </svg></div>
+          <div class="project-art animated-panel covid-art" role="img" aria-label="Animated concept of wavy time-series lines with a forecast and uncertainty band. This is not an actual COVID-19 dataset plot.">
+            <span class="project-no">PROJECT / 002 — FORECASTING</span>
+            <svg viewBox="0 0 500 170" fill="none" aria-hidden="true">
+              <defs><linearGradient id="waveArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--aqua)" stop-opacity=".22"/><stop offset="1" stop-color="var(--aqua)" stop-opacity="0"/></linearGradient></defs>
+              <g class="covid-grid"><path d="M22 25H483M22 62H483M22 99H483M22 136H483M68 14V148M145 14V148M222 14V148M299 14V148M376 14V148M453 14V148"/></g>
+              <path d="M24 120C52 114 61 132 83 107S120 78 140 93S174 122 199 85S226 52 252 75L252 146H24Z" fill="url(#waveArea)"/>
+              <g class="covid-waves">
+                <path class="covid-line secondary" pathLength="1000" d="M24 124C45 111 61 125 79 105S107 110 132 95S163 111 183 80S221 102 253 77"/>
+                <path id="covidObservedPath" class="covid-line primary" pathLength="1000" d="M24 112C49 100 63 125 86 94S119 110 144 73S183 98 206 61S234 89 254 72"/>
+                <path class="covid-band" d="M254 72C284 39 310 54 330 38S367 29 394 25S447 14 480 16L480 118Q440 95 414 112T359 86T310 114T254 72Z"/>
+                <path id="covidForecastPath" class="covid-line forecast" pathLength="1000" d="M254 72C280 63 298 88 323 65S358 70 380 54S418 80 443 48S464 63 480 39"/>
+              </g>
+              <path class="covid-divider" d="M254 14V146"/>
+              <text class="covid-chart-label" x="27" y="18">HISTORICAL TREND</text>
+              <text class="covid-chart-label" x="282" y="18">FORECAST</text>
+              <circle id="covidTracker" class="covid-tracker" cx="24" cy="112" r="4.8"/>
+            </svg>
+            <span class="scene-footnote">Illustrative trend waves and forecast interval · Not actual observations</span>
+          </div>
           <div class="project-body">
             <div class="project-type">December 2025 · Data analytics / time series</div>
             <h3>COVID-19 Forecasting & Analytics Web Application</h3>
@@ -515,7 +618,7 @@ footer {border-top:1px solid var(--line);padding:28px 0 33px}
 
   <section class="section section-rule" id="skills" aria-labelledby="skillsTitle">
     <div class="container"><div class="section-heading reveal"><div class="kicker">05 / Tools and methods</div><h2 id="skillsTitle">What I <span class="serif accent-text">work with.</span></h2><p>These are tools and methods from my research, academic projects, and engineering work. Choose a category to narrow the list.</p></div>
-      <div class="filters reveal" role="group" aria-label="Filter skills"><button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All</button><button class="filter-btn" type="button" data-filter="clinical" aria-pressed="false">Clinical data</button><button class="filter-btn" type="button" data-filter="ml" aria-pressed="false">Machine learning</button><button class="filter-btn" type="button" data-filter="engineering" aria-pressed="false">Engineering</button></div>
+      <div class="filters reveal" role="group" aria-label="Filter skills"><button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All</button><button class="filter-btn" type="button" data-filter="clinical" aria-pressed="false">Clinical data</button><button class="filter-btn" type="button" data-filter="ml" aria-pressed="false">Machine learning</button><button class="filter-btn" type="button" data-filter="engineering" aria-pressed="false">Engineering</button><button class="filter-btn" type="button" data-filter="productivity" aria-pressed="false">Office &amp; collaboration</button></div>
       <div class="skills-grid" id="skillsGrid">
         <article class="skill-card glass reveal" data-categories="ml engineering"><div class="micro">01 / Languages</div><h3>Programming</h3><p>Python · R · SQL · C++ · Rust</p></article>
         <article class="skill-card glass reveal" data-categories="ml"><div class="micro">02 / Statistical learning</div><h3>Modeling</h3><p>Scikit-learn · Classification · Clustering · Cross-validation · Hyperparameter tuning</p></article>
@@ -526,6 +629,8 @@ footer {border-top:1px solid var(--line);padding:28px 0 33px}
         <article class="skill-card glass reveal" data-categories="engineering"><div class="micro">07 / Workflow</div><h3>Development tools</h3><p>Git · GitHub · Docker · Linux · GCP · JupyterLab · VS Code · Jira</p></article>
         <article class="skill-card glass reveal" data-categories="engineering"><div class="micro">08 / Data systems</div><h3>Databases</h3><p>MySQL · Microsoft SQL Server</p></article>
         <article class="skill-card glass reveal" data-categories="ml clinical"><div class="micro">09 / Research practice</div><h3>Evaluation</h3><p>Feature engineering · Model evaluation · Statistical analysis · Reproducible data processing</p></article>
+        <article class="skill-card glass reveal" data-categories="productivity"><div class="micro">10 / Microsoft Office</div><h3>Documents, spreadsheets &amp; slides</h3><p>MS Word · MS Excel · MS PowerPoint</p></article>
+        <article class="skill-card glass reveal" data-categories="productivity"><div class="micro">11 / Google Workspace</div><h3>Collaborative work</h3><p>Google Docs · Google Sheets · Google Slides</p></article>
       </div>
     </div>
   </section>
@@ -626,6 +731,128 @@ footer {border-top:1px solid var(--line);padding:28px 0 33px}
     filterBtns.forEach(item=>item.setAttribute('aria-pressed',String(item === btn)));
     skillCards.forEach(card=> {card.hidden = selected !== 'all' && !card.dataset.categories.split(' ').includes(selected);});
   }));
+
+  // THREE-GROUP CLUSTERING ILLUSTRATION (not measured clinical data).
+  // Seeded coordinates make the same initial scatter appear on every visit.
+  // All SVG circles begin dispersed; smooth interpolation produces exactly
+  // three groups, pauses on the result, then smoothly returns to scatter.
+  const clusterSvg = document.getElementById('clusterVisualization');
+  const dotsHost = document.getElementById('clusterDots');
+  const clusterStatus = document.getElementById('clusterStage');
+  const clusterProgress = document.getElementById('clusterProgress');
+  const clusterHalos = [...document.querySelectorAll('#clusterHalos > *')];
+  const clusterCard = clusterSvg?.closest('.research-art');
+  const ns = 'http://www.w3.org/2000/svg';
+  let clusterSeed = 2026;
+  const seededRandom = () => {clusterSeed = (1664525 * clusterSeed + 1013904223) >>> 0;return clusterSeed / 4294967296;};
+  const centers = [{x:101,y:86,color:'var(--aqua)'},{x:270,y:102,color:'var(--lavender)'},{x:179,y:218,color:'var(--sun)'}];
+  const clusterPoints = [];
+  for(let group=0;group<3;group++){
+    for(let n=0;n<20;n++){
+      const angle=seededRandom()*Math.PI*2;
+      const rad=12+Math.sqrt(seededRandom())*30;
+      const dot=document.createElementNS(ns,'circle');
+      dot.setAttribute('r',(2.6+seededRandom()*2).toFixed(1));
+      dot.setAttribute('fill',centers[group].color);
+      dot.setAttribute('class','cluster-point');
+      const point={dot,fromX:27+seededRandom()*305,fromY:30+seededRandom()*230,toX:centers[group].x+Math.cos(angle)*rad,toY:centers[group].y+Math.sin(angle)*rad,phase:seededRandom()*Math.PI*2};
+      clusterPoints.push(point);
+      dotsHost?.appendChild(dot);
+    }
+  }
+  const easeInOut = t => t*t*(3-2*t);
+  const clusterState = {active:false,start:0,last:0,frame:0,duration:8200};
+  function renderClusters(elapsed) {
+    const time=Math.max(0,elapsed%clusterState.duration);
+    let progress;
+    if(time<950) progress=0;
+    else if(time<3950)progress=easeInOut((time-950)/3000);
+    else if(time<6500)progress=1;
+    else progress=1-easeInOut((time-6500)/1700);
+    for(const p of clusterPoints){
+      const x=p.fromX+(p.toX-p.fromX)*progress + (progress>.85 ? Math.sin(elapsed*.0015+p.phase)*1.1 : 0);
+      const y=p.fromY+(p.toY-p.fromY)*progress + (progress>.85 ? Math.cos(elapsed*.0012+p.phase)*1.1 : 0);
+      p.dot.setAttribute('cx',x.toFixed(2));p.dot.setAttribute('cy',y.toFixed(2));
+      p.dot.style.opacity=String(.48+.47*progress);
+    }
+    clusterHalos.forEach(el=>el.setAttribute('opacity',String(Math.max(0,(progress-.3)/.7)*.85)));
+    if(clusterProgress)clusterProgress.style.width=(progress*100).toFixed(1)+'%';
+    if(clusterStatus)clusterStatus.textContent=time>=6500?'Returning to scattered points':progress<.07?'Scattered observations':progress<.93?'Grouping similar features':'Three illustrative groups';
+  }
+  renderClusters(0);
+
+  // Both graphics use one paused-in-background animation loop. The forecast
+  // tracer follows an illustrative SVG curve, rather than a real dataset.
+  const observedPath=document.getElementById('covidObservedPath');
+  const forecastPath=document.getElementById('covidForecastPath');
+  const tracker=document.getElementById('covidTracker');
+  let covidActive=false;
+  let covidStart=0;
+  function drawCovidMarker(time){
+    if(!tracker || !observedPath || !forecastPath)return;
+    const t=(time%8000)/8000;
+    const path=t<.52?observedPath:forecastPath;
+    const fraction=t<.52?t/.52:(t-.52)/.48;
+    const pt=path.getPointAtLength(path.getTotalLength()*fraction);
+    tracker.setAttribute('cx',pt.x.toFixed(2));tracker.setAttribute('cy',pt.y.toFixed(2));
+    tracker.style.fill=t<.52?'var(--aqua)':'var(--lavender)';
+  }
+  drawCovidMarker(0);
+  function animateScenes(now){
+    clusterState.frame=0;
+    if(document.hidden || reduce.matches)return;
+    if(clusterState.active) {
+      if(!clusterState.start)clusterState.start=now;
+      renderClusters(now-clusterState.start);
+    }
+    if(covidActive){if(!covidStart)covidStart=now;drawCovidMarker(now-covidStart);}
+    if(clusterState.active || covidActive)clusterState.frame=requestAnimationFrame(animateScenes);
+  }
+  function watchScenes(){
+    const panels=[...document.querySelectorAll('.animated-panel')];
+    if(!('IntersectionObserver' in window)){
+      panels.forEach(panel=>panel.classList.add('is-playing'));
+      clusterState.active=true;covidActive=true;
+    } else {
+      const sceneObserver=new IntersectionObserver(entries=>{
+        for(const e of entries){
+          const playing=e.isIntersecting && !document.hidden && !reduce.matches;
+          if(e.target.classList.contains('animated-panel'))e.target.classList.toggle('is-playing',playing);
+          if(e.target===clusterCard){
+            if(playing && !clusterState.active){clusterState.start=0;renderClusters(0);}
+            clusterState.active=playing;
+          }else if(e.target.classList.contains('covid-art')){
+            covidActive=playing;
+            if(playing)covidStart=0;
+          }
+        }
+        if((clusterState.active || covidActive) && !clusterState.frame)clusterState.frame=requestAnimationFrame(animateScenes);
+      },{threshold:.13});
+      if(clusterCard)sceneObserver.observe(clusterCard);
+      panels.forEach(panel=>sceneObserver.observe(panel));
+    }
+    if((clusterState.active || covidActive) && !clusterState.frame)clusterState.frame=requestAnimationFrame(animateScenes);
+  }
+  watchScenes();
+  const isSceneVisible = el => {
+    if(!el)return false;
+    const r=el.getBoundingClientRect();
+    return r.bottom>0 && r.top<innerHeight && r.right>0 && r.left<innerWidth;
+  };
+  const resumeVisibleScenes = () => {
+    const canAnimate=!document.hidden && !reduce.matches;
+    clusterState.active=canAnimate && isSceneVisible(clusterCard);
+    covidActive=canAnimate && isSceneVisible(document.querySelector('.covid-art'));
+    document.querySelectorAll('.animated-panel').forEach(p=>p.classList.toggle('is-playing',canAnimate && isSceneVisible(p)));
+    if((clusterState.active||covidActive) && !clusterState.frame)clusterState.frame=requestAnimationFrame(animateScenes);
+  };
+  document.addEventListener('visibilitychange',resumeVisibleScenes);
+  const syncMotion=()=>{
+    if(reduce.matches){clusterState.active=false;covidActive=false;renderClusters(4250);drawCovidMarker(5200);document.querySelectorAll('.animated-panel').forEach(p=>p.classList.remove('is-playing'));}
+    else resumeVisibleScenes();
+  };
+  if(reduce.addEventListener)reduce.addEventListener('change',syncMotion);else if(reduce.addListener)reduce.addListener(syncMotion);
+  if(reduce.matches)syncMotion();
 
   // Pointer spotlight follows the cursor inside research/experience/project cards.
   if(window.matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce.matches) {
